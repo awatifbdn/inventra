@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\InventoryController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -22,3 +24,9 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Product routes using resource controller, excluding 'show' since it's not used
+Route::resource('products', ProductController::class)->except(['show']);
+
+// Inventory route
+Route::get('/inventory', [InventoryController::class, "index"])->name('inventory.index');

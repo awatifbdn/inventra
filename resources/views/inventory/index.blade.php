@@ -38,11 +38,11 @@
                 <flux:modal name="add-product">
                     <form @submit.prevent="addStock">
                         <div class="space-y-4 p-4">
-                            <h3 class="text-lg font-semibold text-white">Add New Product</h3><br>
+                            <h3 class="text-lg font-semibold text-white dark:text-gray-700">Add New Product</h3><br>
 
                             <!-- Product Name -->
                             <div>
-                                <label class="block text-sm font-medium text-white mb-1">Product Name</label>
+                                <label class="block text-sm font-medium text-white mb-4">Product Name</label>
                                 <flux:input type="text" name="product_name" x-model="newProduct.name" placeholder="e.g., Super Gloss Paint" />
                             </div>
 
@@ -176,7 +176,7 @@
        
             <div class="p-2">
                <div class="overflow-x-auto max-w-max bg-white dark:bg-zinc-800 rounded shadow">
-            <table class="w-full text-sm text-left table-auto">
+            <table class="w-full text-sm text-center table-auto">
                 <thead class="bg-zinc-200 dark:bg-zinc-700">
                     <tr class="text-gray-700 dark:text-white uppercase">
                             <th class="px-4 py-2 text-left text-sm font-medium">#</th>
@@ -219,9 +219,9 @@
         </div>
             </div>
     
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 mt-6">
                 <!-- Header + Date Filter -->
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-left justify-between gap-4 mb-6">
                     <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Stock History Logs</h2>
                     
                     <div class="flex items-center gap-2">

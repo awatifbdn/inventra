@@ -84,13 +84,8 @@
                             <th class="px-6 py-3">#</th>
                             <th class="px-6 py-3">Product Name</th>
                             <th class="px-6 py-3">Category</th>
-                            <th class="px-6 py-3">Key Features</th>
-                            <th class="px-6 py-3">Color</th>
-                            <th class="px-6 py-3">Color Code</th>
-                            <th class="px-6 py-3">Subheading</th>
                             <th class="px-6 py-3">Description</th>
-                            <th class="px-6 py-3">Stock</th>
-                            <th class="px-6 py-3">Litre</th>
+                            <th class="px-6 py-3">Size</th>
                             <th class="px-6 py-3">Price (RM)</th>
                             <th class="px-6 py-3">Image</th>
                             <th class="px-6 py-3">Action</th>
@@ -102,13 +97,8 @@
                     <td class="px-6 py-4">{{ $loop->iteration }}</td>
                     <td class="px-6 py-4">{{ $product->productName }}</td>
                     <td class="px-6 py-4">{{ $product->category }}</td>
-                    <td class="px-6 py-4">{{ \Illuminate\Support\Str::limit($product->key_features, 10) }}</td>
-                    <td class="px-6 py-4">{{ $product->color }}</td>
-                    <td class="px-6 py-4">{{ $product->color_code }}</td>
-                    <td class="px-6 py-4">{{ \Illuminate\Support\Str::limit($product->subheading, 10) }}</td>
-                    <td class="px-6 py-4">{{ \Illuminate\Support\Str::limit($product->description, 10) }}</td>
-                    <td class="px-6 py-4">{{ $product->stock_quantity }}</td>
-                    <td class="px-6 py-4">{{ $product->litre }}</td>
+                    <td class="px-6 py-4">{{ \Illuminate\Support\Str::limit($product->description, 10) }}</td>>
+                    <td class="px-6 py-4">{{ $product->size }}</td>
                     <td class="px-6 py-4">{{ $product->price }}</td>
                     <td class="px-6 py-4">
                      @php
@@ -154,7 +144,6 @@
 
                                         <!-- All input fields here -->
                                         <flux:input name="productName" value="{{ $product->productName }}" label="Product Name" />
-                                        <flux:input name="subheading" value="{{ $product->subheading }}" label="Subheading" />
                                         <flux:select name="category" label="Category">
                                             <option value="Exterior" {{ $product->category == 'Exterior' ? 'selected' : '' }}>Exterior</option>
                                             <option value="Interior" {{ $product->category == 'Interior' ? 'selected' : '' }}>Interior</option>
@@ -163,11 +152,7 @@
                                             <option value="Sports, courts, coatings" {{ $product->category == 'Sports, courts, coatings' ? 'selected' : '' }}>Sports, courts, coatings</option>
                                             <option value="Waterproofing solutions" {{ $product->category == 'Waterproofing solutions' ? 'selected' : '' }}>Waterproofing solutions</option>
                                         </flux:select>
-                                        <flux:input name="key_features" value="{{ $product->key_features }}" label="Key Features" />
-                                        <flux:input name="color" value="{{ $product->color }}" label="Color" />
-                                        <flux:input name="color_code" value="{{ $product->color_code }}" label="Color Code" />
-                                        <flux:input name="stock_quantity" value="{{ $product->stock_quantity }}" label="Stock Quantity" type="number" />
-                                        <flux:input name="litre" value="{{ $product->litre }}" label="Litre" type="number" step="0.01" />
+                                        <flux:input name="litre" value="{{ $product->size }}" label="Litre"/>
                                         <flux:input name="price" value="{{ $product->price }}" label="Price (RM)" type="number" step="0.01" />
                                         <flux:textarea name="description" label="Description" rows="4">{{ $product->description }}</flux:textarea>
                                         

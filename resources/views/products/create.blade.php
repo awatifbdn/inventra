@@ -12,7 +12,6 @@
                 @method('POST')
                 <div class="grid gap-4 md:grid-cols-2">
                     <flux:input label="Product Name" name="productName" required oninput="updatePreview()" />
-                    <flux:input label="Subheading" name="subheading" oninput="updatePreview()" />
                 </div>
 
                 <div class="grid gap-4 md:grid-cols-2">
@@ -25,18 +24,13 @@
                         <option value="Sports, courts, coatings">Sports, courts, coatings</option>
                         <option value="Waterproofing solutions">Waterproofing solutions</option>
                     </flux:select>
-
-                    <flux:input label="Key Features" name="key_features" oninput="updatePreview()" />
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <flux:input label="Color" name="color" oninput="updatePreview()" />
-                    <flux:input label="Color Code" name="color_code" oninput="updatePreview()" />
-                    <flux:input label="Stock Quantity" name="stock_quantity" type="number" min="0" oninput="updatePreview()" />
-                    <flux:input label="Litre" name="litre" type="number" step="0.01" min="0" oninput="updatePreview()" />
+                    <flux:input label="Min Price" name="min_price" type="number" min="0" oninput="updatePreview()" />
+                    <flux:input label="Max Price" name="max_price" type="number" min="0" oninput="updatePreview()" />
+                    <flux:input label="Litre" name="size" oninput="updatePreview()" />
                 </div>
-
-                <flux:input label="Price (RM)" name="price" type="number" step="0.01" min="0" oninput="updatePreview()" />
 
                 <flux:textarea label="Description" name="description" rows="4" oninput="updatePreview()" />
 
@@ -96,13 +90,10 @@
     <script>
         function updatePreview() {
             document.getElementById('previewName').innerText = document.querySelector('[name="productName"]').value || '-';
-            document.getElementById('previewSubheading').innerText = document.querySelector('[name="subheading"]').value || '-';
             document.getElementById('previewCategory').innerText = document.querySelector('[name="category"]').value || '-';
-            document.getElementById('previewFinish').innerText = document.querySelector('[name="key_features"]').value || '-';
-            document.getElementById('previewColor').innerText = document.querySelector('[name="color"]').value || '-';
-            document.getElementById('previewStock').innerText = document.querySelector('[name="stock_quantity"]').value || '-';
-            document.getElementById('previewLitre').innerText = document.querySelector('[name="litre"]').value || '-';
-            document.getElementById('previewPrice').innerText = document.querySelector('[name="price"]').value || '-';
+            document.getElementById('previewSize').innerText = document.querySelector('[name="size"]').value || '-';
+            document.getElementById('previewMinPrice').innerText = document.querySelector('[name="min price"]').value || '-';
+            document.getElementById('previewMaxPrice').innerText = document.querySelector('[name="max price"]').value || '-';
             document.getElementById('previewDesc').innerText = document.querySelector('[name="description"]').value || '-';
         }
 

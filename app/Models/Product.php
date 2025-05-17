@@ -9,17 +9,13 @@ class Product extends Model
 {
     use HasFactory;
       protected $fillable = [
-          'productName',
-          'subheading',
-          'category',
-          'key_features',
-          'color',
-          'color_code',
-          'stock_quantity',
-          'litre',
-          'price',
-          'description',
-          'image_url',
+        'productName',
+        'category',
+        'description',
+        'size',
+        'min_price',
+        'max_price',
+        'image_url', // Store array of image URLs
       ];
 
 }

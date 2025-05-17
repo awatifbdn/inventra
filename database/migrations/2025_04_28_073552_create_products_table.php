@@ -12,15 +12,11 @@ return new class extends Migration {
         Schema::create('products', function (Blueprint $table) {
         $table->id();
         $table->string('productName');
-        $table->string('subheading')->nullable();
         $table->string('category');
-        $table->string('key_features')->nullable();
-        $table->string('color')->nullable();
-        $table->string('color_code')->nullable();
-        $table->integer('stock_quantity')->default(0);
-        $table->float('litre')->default(0);
-        $table->decimal('price', 10, 2)->default(0);
         $table->text('description')->nullable();
+        $table->float('size')->default(0);
+        $table->decimal('min_price', 10, 2)->default(0);
+         $table->decimal('max_price', 10, 2)->default(0);
         $table->json('image_url')->nullable(); // Store array of image URLs
         $table->timestamps();
     });

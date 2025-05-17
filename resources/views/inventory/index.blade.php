@@ -9,27 +9,141 @@
 
         <!-- Dashboard Stats -->
          <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div class="p-6 rounded-xl border-gray-300 dark:border-zinc-600 bg-white dark:bg-gray-800 shadow-md">
+            <div class="p-6 rounded-xl border-gray-300 dark:border-zinc-600 bg-yellow-200 dark:bg-gray-800 shadow-md">
                 <h2 class="text-lg font-semibold">Total Stock</h2>
                 <p class="text-2xl font-bold text-green-600 mt-2">1,250</p>
             </div>
-            <div class="p-6 rounded-xl  border-gray-300 dark:border-zinc-600 bg-white dark:bg-gray-800">
+            <div class="p-6 rounded-xl  border-gray-300 dark:border-zinc-600 bg-yellow-200 dark:bg-gray-800 shadow-md" >
                 <h2 class="text-lg font-semibold">Low Stock</h2>
                 <p class="text-2xl font-bold text-yellow-500 mt-2">75</p>
             </div>
-            <div class="p-6 rounded-xl  border-gray-300 dark:border-zinc-600 bg-white dark:bg-gray-800">
+            <div class="p-6 rounded-xl  border-gray-300 dark:border-zinc-600 bg-yellow-200 dark:bg-gray-800 shadow-md">
                 <h2 class="text-lg font-semibold">Out of Stock</h2>
                 <p class="text-2xl font-bold text-red-500 mt-2">12</p>
             </div>
         </div>
-
-         <!-- Search and Filter Form -->
-            <form action="#" method="GET" class="mb-6 flex flex-wrap items-center gap-4 justify-end search-form">
-                  <flux:modal.trigger name="update-stock">
-                    <flux:button variant="primary" size="sm" icon="plus">Update Stock</flux:button>
+        <!-- Button Section -->
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+            
+            <!-- Left-side Buttons -->
+            <div class="flex gap-3">
+                <flux:modal.trigger name="add-product">
+                    <flux:button variant="primary" size="sm" icon="plus" 
+                        class="inline-flex items-center gap-2 bg-yellow-500 text-white px-6 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                        Add Product
+                    </flux:button>
                 </flux:modal.trigger>
 
-                <!-- Category Dropdown (still native) -->
+                <!-- Add Product Modal -->
+                <flux:modal name="add-product">
+                    <form @submit.prevent="addStock">
+                        <div class="space-y-4 p-4">
+                            <h3 class="text-lg font-semibold text-white">Add New Product</h3><br>
+
+                            <!-- Product Name -->
+                            <div>
+                                <label class="block text-sm font-medium text-white mb-1">Product Name</label>
+                                <flux:input type="text" name="product_name" x-model="newProduct.name" placeholder="e.g., Super Gloss Paint" />
+                            </div>
+
+                            <!-- Initial Quantity -->
+                            <div>
+                                <label class="block text-sm font-medium text-white mb-1">Initial Quantity</label>
+                                <flux:input type="number" min="1" name="initial_quantity" x-model.number="newProduct.quantity" placeholder="e.g., 50" />
+                            </div>
+
+                            <!-- Category -->
+                            <div>
+                                <label class="block text-sm font-medium text-white mb-1">Category</label>
+                                <flux:select x-model="newProduct.category">
+                                    <option value="" disabled selected>Select category</option>
+                                    <option value="Interior">Interior</option>
+                                    <option value="Exterior">Exterior</option>
+                                    <option value="Metal">Metal</option>
+                                    <option value="Wood">Wood</option>
+                                </flux:select>
+                            </div>
+
+                            <!-- Color -->
+                            <div>
+                                <label class="block text-sm font-medium text-white mb-1">Color</label>
+                                <flux:input type="text" name="color" x-model="newProduct.color" placeholder="e.g., Blue" />
+                            </div>
+
+                            <!-- Litre Size -->
+                            <div>
+                                <label class="block text-sm font-medium text-white mb-1">Litre Size</label>
+                                <flux:input type="number" min="0.5" step="0.5" name="litre" x-model.number="newProduct.litre" placeholder="e.g., 5" />
+                            </div>
+
+                            <!-- Notes -->
+                            <div>
+                                <label class="block text-sm font-medium text-white mb-1">Notes</label>
+                                <flux:input type="text" name="notes" x-model="newProduct.notes" placeholder="Optional notes..." />
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-right pt-2 mb-2">
+                                <flux:button type="submit" variant="primary" >
+                                    Add Product
+                                </flux:button>
+                            </div>
+                        </div>
+                    </form>
+                </flux:modal>
+
+
+                <flux:modal.trigger name="update-stock">
+                    <flux:button variant="primary" size="sm" icon="pencil"
+                        class="inline-flex items-center gap-2 bg-yellow-500 text-white px-6 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                        Update Stock
+                    </flux:button>
+                </flux:modal.trigger>
+
+                <!-- Update Stock Modal -->
+                <flux:modal name="update-stock">
+                    <form @submit.prevent="submitStockUpdate">
+                        <div class="space-y-4 p-4">
+                            <h3 class="text-lg font-semibold text-white">Update Stock</h3><br>
+
+                            <!-- Product Selector -->
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-white mb-1">Select Product</label>
+                                <flux:select x-model="selectedProductCode" name="product">
+                                    <option value="" disabled selected>Select product</option>
+                                    <template x-for="product in products" :key="product.code">
+                                        <option :value="product.code" x-text="product.name"></option>
+                                    </template>
+                                </flux:select>
+                            </div>
+
+                            <!-- Quantity Received -->
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-white mb-1">Quantity Received</label>
+                                <flux:input type="number" min="1" name="quantity" x-model.number="receivedQuantity" placeholder="e.g., 10" />
+                            </div>
+
+                            <!-- Date Received -->
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-white mb-1">Date Received</label>
+                                <flux:input type="datetime-local" name="date" x-model="receivedDate" />
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-right pt-2 mb-4">
+                                <flux:button type="submit" variant="primary" icon="check">
+                                    Submit Update
+                                </flux:button>
+                            </div>
+                        </div>
+                    </form>
+                </flux:modal>    
+            </div>
+
+            <!-- Search and Filter Form -->
+            <form action="#" method="GET" class="flex flex-wrap items-center gap-4 justify-end">
+                
+                <!-- Category Dropdown -->
                 <div class="relative">
                     <label for="category" class="sr-only">Category</label>
                     <select name="category" id="category"
@@ -41,12 +155,12 @@
                     </select>
                 </div>
 
-                <!-- Search Input (Flux) -->
+                <!-- Search Input -->
                 <div class="flex-1 min-w-xs">
                     <flux:input name="search" placeholder="Search products..." />
                 </div>
 
-                <!-- Submit Button (Flux) -->
+                <!-- Search Button -->
                 <div>
                     <flux:button icon="magnifying-glass" type="submit" variant="primary">
                         <span class="hidden sm:inline">Search</span>
@@ -54,6 +168,9 @@
                 </div>
 
             </form>
+        </div>
+
+            </div>
 
          <!-- Inventory Table -->
        
@@ -102,131 +219,48 @@
         </div>
             </div>
     
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <!-- Header + Date Filter -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                    <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Stock History Logs</h2>
+                    
+                    <div class="flex items-center gap-2">
+                    <label for="date" class="text-sm font-medium text-gray-700 dark:text-gray-300">Filter by Date:</label>
+                    <input id="date" name="date" type="date"
+                        class="px-4 py-2 rounded-lg border dark:border-neutral-600 bg-white dark:bg-neutral-800 text-sm text-gray-900 dark:text-white shadow-sm focus:ring-2 focus:ring-blue-500" />
+                    </div>
+                </div>
 
-        <!-- History Logs -->
-        <div class="mt-6">
-            <h2 class="text-white font-semibold mb-2">Stock History Logs</h2>
-            <ul class="bg-[#1a1a2b] border border-neutral-700 rounded-xl divide-y divide-neutral-600 text-sm text-white">
-                <li class="px-4 py-3 hover:bg-neutral-800">
-                    <a href="#" class="text-blue-400 hover:underline">Added 20 units of Acrylic Wall Paint</a> <span class="text-gray-400 ml-2">2025-05-15 09:20</span>
-                </li>
-                <li class="px-4 py-3 hover:bg-neutral-800">
-                    <a href="#" class="text-blue-400 hover:underline">Updated stock for Weather Shield</a> <span class="text-gray-400 ml-2">2025-05-14 16:00</span>
-                </li>
-            </ul>
-        </div>
+                <!-- History Logs List -->
+                <ul class="bg-white dark:bg-zinc-800 border border-neutral-300 dark:border-neutral-700 rounded-xl divide-y divide-neutral-200 dark:divide-neutral-700 text-sm shadow-md">
+                    <!-- Example Log Entry -->
+                    <li class="flex items-start sm:items-center px-4 py-4 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition">
+                    <div class="mr-3 mt-0.5 text-green-600 dark:text-green-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-800 dark:text-white">Added <strong>20 units</strong> of Acrylic Wall Paint</p>
+                        <div class="text-gray-500 text-xs mt-1">May 15, 2025 · 09:20 AM</div>
+                    </div>
+                    <span class="ml-4 px-2 py-0.5 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300">Added</span>
+                    </li>
+
+                    <li class="flex items-start sm:items-center px-4 py-4 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition">
+                    <div class="mr-3 mt-0.5 text-yellow-600 dark:text-yellow-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V9l-7-4z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-800 dark:text-white">Updated stock for <strong>Weather Shield</strong></p>
+                        <div class="text-gray-500 text-xs mt-1">May 14, 2025 · 04:00 PM</div>
+                    </div>
+                    <span class="ml-4 px-2 py-0.5 text-xs rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300">Updated</span>
+                    </li>
+                </ul>
+                </div>
     </div>
 </x-layouts.app>
-<!-- Update Stock Modal -->
-<flux:modal name="update-stock">
-    <form @submit.prevent="submitStockUpdate">
-        <div class="space-y-4 p-4">
-            <h3 class="text-lg font-semibold text-white">Update Stock</h3><br>
-
-            <!-- Product Selector -->
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-white mb-1">Select Product</label>
-                <flux:select x-model="selectedProductCode" name="product">
-                    <option value="" disabled selected>Select product</option>
-                    <template x-for="product in products" :key="product.code">
-                        <option :value="product.code" x-text="product.name"></option>
-                    </template>
-                </flux:select>
-            </div>
-
-            <!-- Quantity Received -->
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-white mb-1">Quantity Received</label>
-                <flux:input type="number" min="1" name="quantity" x-model.number="receivedQuantity" placeholder="e.g., 10" />
-            </div>
-
-            <!-- Date Received -->
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-white mb-1">Date Received</label>
-                <flux:input type="datetime-local" name="date" x-model="receivedDate" />
-            </div>
-
-            <!-- Submit Button -->
-            <div class="text-right pt-2 mb-4">
-                <flux:button type="submit" variant="primary" icon="check">
-                    Submit Update
-                </flux:button>
-            </div>
-        </div>
-    </form>
-</flux:modal>
-
-
-    <script>
-         function inventoryDashboard() {
-        return {
-            search: '',
-            openAddModal: false,
-            receivedQuantity: 0,
-            selectedProductCode: '',
-            receivedDate: '',
-            newProduct: {
-                name: '',
-                quantity: 0
-            },
-            logs: [
-                { message: 'Added 20 units of Acrylic Wall Paint', timestamp: '2025-05-15 09:20' },
-                { message: 'Updated stock for Weather Shield', timestamp: '2025-05-14 16:00' },
-            ],
-            products: [
-                { code: 'P001', name: 'Acrylic Wall Paint', category: 'Interior', color: 'White', litre: 5, quantity: 30, notes: 'Popular item' },
-                { code: 'P002', name: 'Weather Shield', category: 'Exterior', color: 'Blue', litre: 10, quantity: 12, notes: 'Limited stock' },
-                { code: 'P003', name: 'Gloss Enamel', category: 'Metal', color: 'Red', litre: 1, quantity: 0, notes: 'Out of stock' },
-            ],
-
-            get filteredProducts() {
-                return this.search
-                    ? this.products.filter(p => p.name.toLowerCase().includes(this.search.toLowerCase()))
-                    : this.products;
-            },
-
-            submitStockUpdate() {
-                const product = this.products.find(p => p.code === this.selectedProductCode);
-                if (!product || this.receivedQuantity <= 0) return;
-
-                // Update quantity
-                product.quantity += this.receivedQuantity;
-
-                // Use specified date or now
-                const date = this.receivedDate
-                    ? new Date(this.receivedDate).toLocaleString()
-                    : new Date().toLocaleString();
-
-                // Add to logs
-                this.logs.unshift({
-                    message: `Received ${this.receivedQuantity} units of ${product.name}`,
-                    timestamp: date
-                });
-
-                // Reset modal inputs
-                this.receivedQuantity = 0;
-                this.selectedProductCode = '';
-                this.receivedDate = '';
-            },
-
-            addStock() {
-                this.products.push({
-                    code: `P00${this.products.length + 1}`,
-                    name: this.newProduct.name,
-                    category: 'Interior',
-                    color: 'Gray',
-                    litre: 5,
-                    quantity: parseInt(this.newProduct.quantity),
-                    notes: 'Newly added'
-                });
-                this.logs.unshift({
-                    message: `Added ${this.newProduct.quantity} of ${this.newProduct.name}`,
-                    timestamp: new Date().toLocaleString()
-                });
-                this.newProduct = { name: '', quantity: 0 };
-                this.openAddModal = false;
-            }
-        };
-    }
-    </script>
 

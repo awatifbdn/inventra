@@ -16,5 +16,4 @@ class Inventory extends Model
         'litre',
         'pail_quantity',
         'Additional_notes',];
-
 }

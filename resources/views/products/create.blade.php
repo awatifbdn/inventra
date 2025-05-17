@@ -27,9 +27,9 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <flux:input label="Min Price" name="min_price" type="number" min="0" oninput="updatePreview()" />
-                    <flux:input label="Max Price" name="max_price" type="number" min="0" oninput="updatePreview()" />
-                    <flux:input label="Litre" name="size" oninput="updatePreview()" />
+                    <flux:input label="Min Price" name="min_price"  type="number" min="0" step="0.01" oninput="updatePreview()" />
+                    <flux:input label="Max Price" name="max_price"  type="number" min="0" step="0.01" oninput="updatePreview()" />
+                    <flux:input label="size" name="sizes" type="text" required oninput="updatePreview()" />
                 </div>
 
                 <flux:textarea label="Description" name="description" rows="4" oninput="updatePreview()" />
@@ -71,14 +71,10 @@
             <!-- Textual Preview -->
             <div class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                 <p><strong>Name:</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewName">-</span></p>
-                <p><strong>Subheading:</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewSubheading">-</span></p>
                 <p><strong>Category:</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewCategory">-</span></p>
-                <p><strong>Key features:</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewFinish">-</span></p>
-                <p><strong>Color:</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewColor">-</span></p>
-                <p><strong>Color Code:</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewColorCode">-</span></p>
-                <p><strong>Stock:</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewStock">-</span></p>
-                <p><strong>Litre:</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewLitre">-</span></p>
-                <p><strong>Price (RM):</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewPrice">-</span></p>
+                <p><strong>Size:</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewSize">-</span></p>
+                <p><strong>Minimum Price (RM):</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewMinPrice">-</span></p>
+                <p><strong>Maximum Price (RM):</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewMaxPrice">-</span></p>
                 <div>
                     <p><strong>Description:</strong></p>
                     <p id="previewDesc" class="text-green-800 dark:text-yellow-200 italic">-</p>
@@ -91,9 +87,9 @@
         function updatePreview() {
             document.getElementById('previewName').innerText = document.querySelector('[name="productName"]').value || '-';
             document.getElementById('previewCategory').innerText = document.querySelector('[name="category"]').value || '-';
-            document.getElementById('previewSize').innerText = document.querySelector('[name="size"]').value || '-';
-            document.getElementById('previewMinPrice').innerText = document.querySelector('[name="min price"]').value || '-';
-            document.getElementById('previewMaxPrice').innerText = document.querySelector('[name="max price"]').value || '-';
+            document.getElementById('previewSize').innerText = document.querySelector('[name="sizes"]').value || '-';
+            document.getElementById('previewMinPrice').innerText = document.querySelector('[name="min_price"]').value || '-';
+            document.getElementById('previewMaxPrice').innerText = document.querySelector('[name="max_price"]').value || '-';
             document.getElementById('previewDesc').innerText = document.querySelector('[name="description"]').value || '-';
         }
 

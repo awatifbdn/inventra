@@ -38,14 +38,10 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'productName'    => 'required|string|max:255',
-            'subheading'     => 'nullable|string|max:255',
             'category'       => 'required|string|max:255',
-            'key_features'   => 'nullable|string|max:255',
-            'color'          => 'nullable|string|max:255',
-            'color_code'     => 'nullable|string|max:255',
-            'stock_quantity' => 'required|integer|min:0',
-            'litre'          => 'required|numeric|min:0',
-            'price'          => 'required|numeric|min:0',
+            'sizes'           => 'required|string|max:255',
+            'min_price'      => 'required|numeric|min:0',
+            'max_price'      => 'required|numeric|min:0',
             'description'    => 'nullable|string',
             'image_url.*'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -74,14 +70,10 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'productName'    => 'required|string|max:255',
-            'subheading'     => 'nullable|string|max:255',
             'category'       => 'required|string|max:255',
-            'key_features'   => 'nullable|string|max:255',
-            'color'          => 'nullable|string|max:255',
-            'color_code'     => 'nullable|string|max:255',
-            'stock_quantity' => 'required|integer|min:0',
-            'litre'          => 'required|numeric|min:0',
-            'price'          => 'required|numeric|min:0',
+            'sizes'           => 'required|string|max:255',
+            'min_price'      => 'required|numeric|min:0',
+            'max_price'      => 'required|numeric|min:0',
             'description'    => 'nullable|string',
             'image_url.*'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);

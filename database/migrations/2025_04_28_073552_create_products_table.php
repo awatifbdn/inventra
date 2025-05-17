@@ -14,12 +14,13 @@ return new class extends Migration {
         $table->string('productName');
         $table->string('category');
         $table->text('description')->nullable();
-        $table->float('size')->default(0);
+        $table->string('sizes')->default(0);
         $table->decimal('min_price', 10, 2)->default(0);
-         $table->decimal('max_price', 10, 2)->default(0);
+        $table->decimal('max_price', 10, 2)->default(0);
         $table->json('image_url')->nullable(); // Store array of image URLs
         $table->timestamps();
     });
+
     }
 
     public function down(): void

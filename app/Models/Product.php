@@ -12,7 +12,7 @@ class Product extends Model
         'productName',
         'category',
         'description',
-        'size',
+        'sizes',
         'min_price',
         'max_price',
         'image_url', // Store array of image URLs

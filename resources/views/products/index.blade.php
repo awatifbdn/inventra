@@ -86,7 +86,8 @@
                             <th class="px-6 py-3">Category</th>
                             <th class="px-6 py-3">Description</th>
                             <th class="px-6 py-3">Size</th>
-                            <th class="px-6 py-3">Price (RM)</th>
+                            <th class="px-6 py-3">Min Price (RM)</th>
+                            <th class="px-6 py-3">Max Price (RM)</th>
                             <th class="px-6 py-3">Image</th>
                             <th class="px-6 py-3">Action</th>
                         </tr>
@@ -97,9 +98,10 @@
                     <td class="px-6 py-4">{{ $loop->iteration }}</td>
                     <td class="px-6 py-4">{{ $product->productName }}</td>
                     <td class="px-6 py-4">{{ $product->category }}</td>
-                    <td class="px-6 py-4">{{ \Illuminate\Support\Str::limit($product->description, 10) }}</td>>
-                    <td class="px-6 py-4">{{ $product->size }}</td>
-                    <td class="px-6 py-4">{{ $product->price }}</td>
+                    <td class="px-6 py-4">{{ \Illuminate\Support\Str::limit($product->description, 15) }}</td>
+                    <td class="px-6 py-4">{{ $product->sizes }}</td>
+                    <td class="px-6 py-4">{{ $product->min_price }}</td>
+                    <td class="px-6 py-4">{{ $product->max_price }}</td>
                     <td class="px-6 py-4">
                      @php
                         $images = json_decode($product->image_url, true);
@@ -152,8 +154,9 @@
                                             <option value="Sports, courts, coatings" {{ $product->category == 'Sports, courts, coatings' ? 'selected' : '' }}>Sports, courts, coatings</option>
                                             <option value="Waterproofing solutions" {{ $product->category == 'Waterproofing solutions' ? 'selected' : '' }}>Waterproofing solutions</option>
                                         </flux:select>
-                                        <flux:input name="litre" value="{{ $product->size }}" label="Litre"/>
-                                        <flux:input name="price" value="{{ $product->price }}" label="Price (RM)" type="number" step="0.01" />
+                                        <flux:input name="sizes" value="{{ $product->sizes }}" label="size"/>
+                                        <flux:input name="min_price" value="{{ $product->min_price }}" label="Price (RM)" type="number" step="0.01" />
+                                        <flux:input name="max_price" value="{{ $product->max_price }}" label="Price (RM)" type="number" step="0.01" />
                                         <flux:textarea name="description" label="Description" rows="4">{{ $product->description }}</flux:textarea>
                                         
 
@@ -191,9 +194,7 @@
                                     <!-- Header -->
                                     <div>
                                         <flux:heading size="xl">{{ $product->productName }}</flux:heading>
-                                        <flux:text class="mt-1 text-sm text-gray-500 dark:text-gray-300">
-                                            {{ $product->subheading }}
-                                        </flux:text>
+                            
                                     </div>
 
                                     <!-- Table of Product Info -->
@@ -205,32 +206,17 @@
                                                     <td class="py-2">{{ $product->category }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th class="font-medium py-2 pr-4 align-top">Color</th>
-                                                    <td class="py-2 flex items-center gap-2">
-                                                        <span class="w-5 h-5 inline-block rounded-full border" style="background-color: {{ $product->color_code }}"></span>
-                                                        {{ $product->color }}
-                                                    </td>
+                                                    <th class="font-medium py-2 pr-4 align-top">Size</th>
+                                                    <td class="py-2">{{ $product->sizes }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th class="font-medium py-2 pr-4 align-top">Color Code</th>
-                                                    <td class="py-2">{{ $product->color_code }}</td>
+                                                    <th class="font-medium py-2 pr-4 align-top">Min Price (RM)</th>
+                                                    <td class="py-2">RM {{ number_format($product->min_price, 2) }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th class="font-medium py-2 pr-4 align-top">Stock Quantity</th>
-                                                    <td class="py-2">{{ $product->stock_quantity }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="font-medium py-2 pr-4 align-top">Litre</th>
-                                                    <td class="py-2">{{ $product->litre }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="font-medium py-2 pr-4 align-top">Price (RM)</th>
-                                                    <td class="py-2">RM {{ number_format($product->price, 2) }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="font-medium py-2 pr-4 align-top">Key Features</th>
-                                                    <td class="py-2">{{ $product->key_features }}</td>
-                                                </tr>
+                                                    <th class="font-medium py-2 pr-4 align-top">Max Price (RM)</th>
+                                                    <td class="py-2">RM {{ number_format($product->max_price, 2) }}</td>
+                                                </tr> 
                                                 <tr>
                                                     <th class="font-medium py-2 pr-4 align-top">Description</th>
                                                     <td class="py-2">{{ $product->description }}</td>

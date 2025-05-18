@@ -16,7 +16,7 @@ class ProductController extends Controller
             $query->where('category', $request->category);
         }
 
-        // Optional: Search by product name or description
+        // Optional: Search by product name or description.
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('productName', 'like', '%' . $request->search . '%')

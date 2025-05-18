@@ -53,7 +53,7 @@ class InventoryController extends Controller
         $stock->increment('pail_quantity', $request->quantity);
 
 
-        // Optionally: Save stock history log in another table
+        // Optionally: Save stock history log in another table.
 
         return redirect()->back()->with('success', 'Stock updated successfully!');
     }

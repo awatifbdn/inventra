@@ -21,5 +21,5 @@ class Inventory extends Model
         'Additional_notes',
     ];
 
-    public $timestamps = true; // Enable timestamps if needed..
+    public $timestamps = true; // Enable timestamps if needed...
 }

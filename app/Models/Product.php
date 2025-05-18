@@ -15,7 +15,7 @@ class Product extends Model
         'sizes',
         'min_price',
         'max_price',
-        'image_url', // Store array of image URLs..
+        'image_url', // Store array of image URLs...
       ];
 
 }

@@ -46,7 +46,7 @@ class ProductController extends Controller
             'image_url.*'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Store multiple images if uploaded
+        // Store multiple images if uploaded..
         $imagePaths = [];
         if ($request->hasFile('image_url')) {
             foreach ($request->file('image_url') as $image) {

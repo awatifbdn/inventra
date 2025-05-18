@@ -25,7 +25,7 @@ Route::middleware(['auth'])->group(function () {
 
 require __DIR__.'/auth.php';
 
-// Product routes using resource controller, excluding 'show' since it's not used
+// Product routes using resource controller, excluding 'show' since it's not used..
 Route::resource('products', ProductController::class)->except(['show']);
 
 

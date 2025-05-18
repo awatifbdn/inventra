@@ -21,7 +21,7 @@
                 <p class="text-2xl font-bold text-red-500 mt-2">12</p>
             </div>
         </div>
-        <!-- Button Section -->
+        <!-- Button Section.. -->
         <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
             
             <!-- Left-side Buttons -->

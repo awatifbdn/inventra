@@ -34,7 +34,7 @@
 
                 <flux:textarea label="Description" name="description" rows="4" oninput="updatePreview()" />
 
-                <!-- Styled File Upload -->
+                <!-- Styled File Upload.. -->
                 <div class="space-y-2">
                     <label for="image_url" class="block text-sm font-medium text-gray-700 dark:text-white">Product Images</label>
                     <input 

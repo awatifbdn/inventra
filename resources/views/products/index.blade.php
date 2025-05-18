@@ -133,7 +133,7 @@
                                 <flux:button icon="pencil" variant="primary" size="xs" square tooltip="Edit" />
                             </flux:modal.trigger>
 
-                        <!-- Edit Modal -->
+                        <!-- Edit Modal.. -->
                             <flux:modal name="edit-product-{{ $product->id }}" class="w-full max-w-5xl">
                                 <div class="space-y-6">
                                     <div>

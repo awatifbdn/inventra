@@ -15,7 +15,7 @@ class InventoryController extends Controller
 
     }
 
-    // Store a new product
+    // Store a new product..
     public function store(Request $request)
     {
         $request->validate([

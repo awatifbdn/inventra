@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Inventory extends Model
 {
     use HasFactory;
+
+    protected $table = 'inventories'; // Specify the table name if it's not the plural of the model name
+
     protected $fillable = [
         'productCode',
         'productName',
@@ -15,5 +18,8 @@ class Inventory extends Model
         'color',
         'litre',
         'pail_quantity',
-        'Additional_notes',];
+        'Additional_notes',
+    ];
+
+    public $timestamps = true; // Enable timestamps if needed
 }

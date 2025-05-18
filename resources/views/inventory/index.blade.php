@@ -4,7 +4,6 @@
         <!-- Top Bar -->
         <div class="flex justify-between items-center">
             <h1 class="text-2xl font-semibold text-white">Inventory</h1>
-          
         </div>
 
         <!-- Dashboard Stats -->
@@ -36,14 +35,16 @@
 
                 <!-- Add Product Modal -->
                 <flux:modal name="add-product">
-                    <form @submit.prevent="addStock">
+                    <form action="{{ route('inventory.store') }}" method="POST">
+                        @csrf   
+                        @method('POST')
                         <div class="space-y-4 p-4">
                             <h3 class="text-lg font-semibold text-white dark:text-gray-700">Add New Product</h3><br>
 
                             <!-- Product Name -->
                             <div>
                                 <label class="block text-sm font-medium text-white mb-4">Product Name</label>
-                                <flux:input type="text" name="product_name" x-model="newProduct.name" placeholder="e.g., Super Gloss Paint" />
+                                <flux:input type="text" name="productName" x-model="newProduct.name" placeholder="e.g., Super Gloss Paint" />
                             </div>
 
                             <!-- Initial Quantity -->
@@ -59,8 +60,10 @@
                                     <option value="" disabled selected>Select category</option>
                                     <option value="Interior">Interior</option>
                                     <option value="Exterior">Exterior</option>
-                                    <option value="Metal">Metal</option>
-                                    <option value="Wood">Wood</option>
+                                    <option value="Glomel">Glomel</option>
+                                    <option value="Protective coatings">Protective coatings</option>
+                                    <option value="Sports, courts, coatings">Sports, courts, coatings</option>
+                                    <option value="Waterproofing solutions">Waterproofing solutions</option>
                                 </flux:select>
                             </div>
 
@@ -102,7 +105,8 @@
 
                 <!-- Update Stock Modal -->
                 <flux:modal name="update-stock">
-                    <form @submit.prevent="submitStockUpdate">
+                    <form action="{{ route('inventory.updateStock') }}" method="POST">
+                        @csrf
                         <div class="space-y-4 p-4">
                             <h3 class="text-lg font-semibold text-white">Update Stock</h3><br>
 
@@ -175,48 +179,101 @@
          <!-- Inventory Table -->
        
             <div class="p-2">
-               <div class="overflow-x-auto max-w-max bg-white dark:bg-zinc-800 rounded shadow">
-            <table class="w-full text-sm text-center table-auto">
-                <thead class="bg-zinc-200 dark:bg-zinc-700">
-                    <tr class="text-gray-700 dark:text-white uppercase">
-                            <th class="px-4 py-2 text-left text-sm font-medium">#</th>
-                            <th class="px-4 py-2 text-left text-sm font-medium">Product Code</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">Product Name</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">Category</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">Color</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">Litre</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">Pail Quantity</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">Notes</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-zinc-700">
-                    <!-- Sample Row 1 -->
-                    <tr class="hover:bg-gray-50 dark:hover:bg-zinc-700">
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">1</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">P003</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Gloss Enamel</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Metal</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Red</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">1</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">0</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">Out of stock</td>
+              <div class="overflow-x-auto max-w-max bg-white dark:bg-zinc-800 rounded shadow">
+                    <table class="w-full text-sm text-center table-auto">
+                        <thead class="bg-zinc-200 dark:bg-zinc-700">
+                            <tr class="text-gray-700 dark:text-white uppercase">
+                                <th class="px-4 py-2 text-left text-sm font-medium">#</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium">Product Code</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium">Product Name</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium">Category</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium">Color</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium">Litre</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium">Pail Quantity</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium">Notes</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-zinc-700">
+                            @foreach ($stock as $index => $item)
+                            <tr class="hover:bg-gray-50 dark:hover:bg-zinc-700">
+                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $index + 1 }}</td>
+                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $item->productCode }}</td>
+                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $item->productName }}</td>
+                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $item->category }}</td>
+                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $item->color }}</td>
+                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $item->litre }}</td>
+                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $item->pail_quantity }}</td>
+                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $item->Additional_notes ?? '-' }}</td>
+                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
+                                    <!-- Edit Button with update product form -->
+                                    <flux:modal.trigger name="edit-product-{{ $item->id }}">
+                                        <flux:button icon="pencil" variant="primary" size="xs" square tooltip="Edit" />
+                                    </flux:modal.trigger>
 
-                    <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
-                        <!-- Edit Button with update product form -->
-                        <flux:modal.trigger name="edit-product">
-                            <flux:button icon="pencil" variant="primary" size="xs" square tooltip="Edit" />
-                        </flux:modal.trigger>
+                                    <flux:modal name="edit-product-{{ $item->id }}">
+                                        <form action="{{ route('inventory.update', $item->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="space-y-4 p-4">
+                                                <h3 class="text-lg font-semibold text-white">Edit Product</h3><br>
+
+                                                <div>
+                                                    <label class="block text-sm font-medium text-white mb-1">Product Name</label>
+                                                    <flux:input type="text" name="product_name" value="{{ old('product_name', $item->productName) }}" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm font-medium text-white mb-1">Category</label>
+                                                    <flux:select name="category" >
+                                                        <option value="Interior" {{ $item->category === 'Interior' ? 'selected' : '' }}>Interior</option>
+                                                        <option value="Exterior" {{ $item->category === 'Exterior' ? 'selected' : '' }}>Exterior</option>
+                                                        <option value="Metal" {{ $item->category === 'Metal' ? 'selected' : '' }}>Metal</option>
+                                                        <option value="Wood" {{ $item->category === 'Wood' ? 'selected' : '' }}>Wood</option>
+                                                    </flux:select>
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm font-medium text-white mb-1">Color</label>
+                                                    <flux:input type="text" name="color" value="{{ old('color', $item->color) }}" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm font-medium text-white mb-1">Litre Size</label>
+                                                    <flux:input type="number" min="0.5" step="0.5" name="litre" value="{{ old('litre', $item->litre) }}" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm font-medium text-white mb-1">Pail Quantity</label>
+                                                    <flux:input type="number" min="0" name="pail_quantity" value="{{ old('pail_quantity', $item->pail_quantity) }}" />
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm font-medium text-white mb-1">Notes</label>
+                                                    <flux:input type="text" name="notes" value="{{ old('notes', $item->Additional_notes) }}" />
+                                                </div>
+
+                                                <div class="text-right pt-2 mb-2">
+                                                    <flux:button type="submit" variant="primary">Update Product</flux:button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </flux:modal>
 
 
-                        <!-- Delete Button -->
-                        <flux:button icon="trash" variant="danger" size="xs" square tooltip="Delete" />
-                    </td>
+                                    <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <flux:button type="submit" icon="trash" variant="danger" size="xs" square tooltip="Delete" />
+                                </form>
 
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
     
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 mt-6">

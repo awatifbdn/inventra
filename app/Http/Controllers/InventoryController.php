@@ -3,89 +3,122 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inventory;
+use App\Models\StockHistory;
 use Illuminate\Support\Str;
+
 
 class InventoryController extends Controller
 {
-    // List all inventory
-    public function index()
-    {
-        $stock = Inventory::all();
-        return view('inventory.index', compact('stock'));
+    public function index(Request $request)
+            {
+                $inventory = Inventory::all(); // Fetch only inventory items
 
-    }
+                    return view('inventory.index', [
+                    'inventory' => $inventory,
+                    'from_date' => null,
+                    'to_date' => null,
+                ]);
+            }
+
 
     // Store a new product..
-    public function store(Request $request)
-    {
-        $request->validate([
-            'productName' => 'required|string',
-            'category' => 'required|string',
-            'color' => 'required|string',
-            'litre' => 'required|numeric|min:0.5',
-            'initial_quantity' => 'required|integer|min:1',
-            'notes' => 'nullable|string',
-        ]);
+   public function store(Request $request)
+            {
+                // Validate incoming form data
+                $validated = $request->validate([
+                    'productCode'     => 'nullable|string|max:255',
+                    'productName'     => 'required|string|max:255',
+                    'pail_quantity'   => 'required|integer|min:1',
+                    'category'        => 'required|string|max:100',
+                    'color'           => 'nullable|string|max:100',
+                    'litre'           => 'required|numeric|min:0.5',
+                    'notes'           => 'nullable|string|max:500',
+                ]);
 
-        Inventory::create([
-            'productCode' => 'P' . str_pad(Inventory::max('id') + 1, 3, '0', STR_PAD_LEFT),
-            'productName' => $request->productName,
-            'category' => $request->category,
-            'color' => $request->color,
-            'litre' => $request->litre,
-            'pail_quantity' => $request->initial_quantity,
-            'Additional_notes' => $request->notes,
-        ]);
+                // Create a new product record
+                $stock = Inventory::create([
+                
+                    'productCode'      => $validated['productCode'], // Generate a random code if not provided
+                    'productName'      => $validated['productName'],
+                    'pail_quantity'    => $validated['pail_quantity'],
+                    'category'    => $validated['category'],
+                    'color'       => $validated['color'] ?? null,
+                    'litre'       => $validated['litre'],
+                    'notes'       => $validated['notes'] ?? null,
+                ]);
 
-        return redirect()->back()->with('success', 'Product added successfully!');
-    }
+                // Optional: flash a success message and redirect
+                return redirect()->route('inventory.index')->with('success', 'Product added successfully!');
+            }
 
-    // Update stock quantity
-    public function updateStock(Request $request)
-    {
-        $request->validate([
-            'product' => 'required|string',
-            'quantity' => 'required|integer|min:1',
-            'date' => 'required|date',
-        ]);
+// Update stock
+public function updateStock(Request $request)
+        {
+            $request->validate([
+                'stock_id' => 'required|exists:inventories,id',
+                'quantity' => 'required|integer|min:1',
+                'entry_date' => 'required|date',
+                'note' => 'nullable|string|max:1000',
+            ]);
 
-        $stock = Inventory::where('productCode', $request->product)->firstOrFail();
-        $stock->increment('pail_quantity', $request->quantity);
+            // Get the product from inventory
+            $inventory = Inventory::findOrFail($request->stock_id);
 
+            // Update the inventory stock
+        if ($request->entry_type === 'out') {
+                if ($inventory->pail_quantity < $request->quantity) {
+                    return back()->withErrors(['quantity' => 'Not enough stock to reduce.']);
+                }
+                $inventory->pail_quantity -= $request->quantity;
+            } else {
+                $inventory->pail_quantity += $request->quantity;
+            }
 
-        // Optionally: Save stock history log in another table.
+            $inventory->save();
 
-        return redirect()->back()->with('success', 'Stock updated successfully!');
-    }
+            // Record stock entry in history
+            StockHistory::create([
+                'inventory_id' => $inventory->id,
+                'entry_type' => $request->entry_type, 
+                'quantity' => $request->quantity,
+                'entry_date' => $request->entry_date,
+                'note' => $request->note,
+            ]);
 
-    // Edit product details (modal)
-    public function update(Request $request, Inventory $inventory)
-    {
-        $request->validate([
-            'productName' => 'required|string',
-            'category' => 'required|string',
-            'color' => 'required|string',
-            'litre' => 'required|numeric|min:0.5',
-            'pail_quantity' => 'required|integer',
-            'notes' => 'nullable|string',
-        ]);
+            return back()->with('success', 'Stock updated and history recorded.');
 
-        $inventory->update([
-            'productName' => $request->productName,
-            'category' => $request->category,
-            'color' => $request->color,
-            'litre' => $request->litre,
-            'pail_quantity' => $request->pail_quantity,
-            'Additional_notes' => $request->notes,
-        ]);
-
-        return redirect()->back()->with('success', 'Product updated successfully!');
-    }
-
+        }
+    
     // Delete product
     public function destroy(Inventory $inventory)
-    {
-        $inventory->delete();
-        return redirect()->back()->with('success', 'Product deleted!');
-    }
+            {
+                $inventory->delete();
+                return redirect()->back()->with('success', 'Product deleted!');
+            }
+
+    public function history(Request $request)
+            {
+                $query = StockHistory::with('inventory');
+
+                if ($request->filled('from_date')) {
+                    $query->whereDate('entry_date', '>=', $request->from_date);
+                }
+
+                if ($request->filled('to_date')) {
+                    $query->whereDate('entry_date', '<=', $request->to_date);
+                }
+
+                $inventory = Inventory::all(); // Fetch only inventory items
+                $history = $query->orderBy('entry_date', 'desc')->paginate(5);
+
+                return view('inventory.history', [
+                    'inventory'=> $inventory,
+                    'history' => $history,
+                    'from_date' => $request->from_date,
+                    'to_date' => $request->to_date,
+                ]);
+            }
 }
+
+
+

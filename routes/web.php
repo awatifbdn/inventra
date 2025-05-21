@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\InventoryController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -22,3 +24,19 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Product routes using resource controller, excluding 'show' since it's not used..
+Route::resource('products', ProductController::class)->except(['show']);
+
+
+
+
+Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index'); // main view
+Route::post('/inventory', [InventoryController::class, 'store'])->name('inventory.store');
+Route::post('/inventory/update-stock', [InventoryController::class, 'updateStock'])->name('inventory.updateStock');
+Route::put('/inventory/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
+Route::delete('/inventory/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
+Route::get('/inventory/history', [InventoryController::class, 'history'])->name('inventory.history'); 
+
+
+

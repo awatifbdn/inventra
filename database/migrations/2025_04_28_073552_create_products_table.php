@@ -10,16 +10,17 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id('product_id');
-            $table->string('name');
-            $table->string('color');
-            $table->string('finish_type');
-            $table->integer('stock_quantity')->default(0);
-            $table->string('image_url')->nullable();
-            $table->text('description')->nullable();
-            $table->decimal('litre', 8, 2);
-            $table->timestamps();
-        });
+        $table->id();
+        $table->string('productName');
+        $table->string('category');
+        $table->text('description')->nullable();
+        $table->string('sizes')->default(0);
+        $table->decimal('min_price', 10, 2)->default(0);
+        $table->decimal('max_price', 10, 2)->default(0);
+        $table->json('image_url')->nullable(); // Store array of image URLs
+        $table->timestamps();
+    });
+
     }
 
     public function down(): void

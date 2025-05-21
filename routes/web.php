@@ -46,4 +46,6 @@ Route::get('/colour', function () {
     return view('user.colour');
 })->name('colour');
 
-
+Route::get('/details', function () {
+    return view('user.details');
+})->name('details');

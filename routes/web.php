@@ -11,6 +11,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::get('/home', function () {
+    return view('user.home');
+})->name('home');
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -38,5 +42,8 @@ Route::put('/inventory/{inventory}', [InventoryController::class, 'update'])->na
 Route::delete('/inventory/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
 Route::get('/inventory/history', [InventoryController::class, 'history'])->name('inventory.history'); 
 
+Route::get('/colour', function () {
+    return view('user.colour');
+})->name('colour');
 
 

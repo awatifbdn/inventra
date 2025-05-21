@@ -10,10 +10,6 @@
   <header class="navbar">
     <img src="https://via.placeholder.com/120x40?text=INVENTRA" class="logo" alt="Logo">
     <input type="text" class="search-bar" placeholder="Search Here...">
-    <div class="menu">
-      <span class="menu-icon">☰</span>
-      <span class="user-icon">👤</span>
-    </div>
   </header>
 
   <!-- Banner -->
@@ -27,6 +23,7 @@
   <section class="catalogue">
     <h2>CATALOGUE</h2>
     <div class="catalogue-grid">
+        <a href="{{ route('colour') }}">
       <div class="catalogue-item"><img src="../image/Ultrasheild.jpg" alt=""><p>ULTRASHEILD</p></div>
       <div class="catalogue-item"><img src="https://via.placeholder.com/80x100" alt=""><p>KALERSHEILD</p></div>
       <div class="catalogue-item"><img src="https://via.placeholder.com/80x100" alt=""><p>VINYLSHEEN</p></div>

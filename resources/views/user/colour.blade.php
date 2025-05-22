@@ -9,7 +9,7 @@
 <body>
   <!-- Header -->
   <header class="navbar">
-    <img src="https://via.placeholder.com/120x40?text=INVENTRA" class="logo" alt="Logo">
+    <img src="{{ asset('images/logo1.jpg') }}" class="logo" alt="Logo">
     <input type="text" class="search-bar" placeholder="Search Here...">
   </header>
 
@@ -18,7 +18,7 @@
     <h2>COLOUR PALLETE</h2>
     <div class="Pallete-grid">
         <a href="{{ route('details') }}">
-      <div class="Pallete-item"><img src="../image/CornSilk.jpg" alt=""><p>CORN SILK</p></div>  
+      <div class="Pallete-item"><img src="{{  asset('images/CornSilk.jpg') }}" alt=""><p>CORN SILK</p></div>  
         </a>
         <a href="{{ route('details') }}">
       <div class="Pallete-item"><img src="../image/JanesGrey.jpg" alt=""><p>JANE'S GREY</p></div>

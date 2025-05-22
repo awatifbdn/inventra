@@ -8,7 +8,7 @@
 <body>
   <!-- Header -->
   <header class="navbar">
-    <img src="https://via.placeholder.com/120x40?text=INVENTRA" class="logo" alt="Logo">
+    <img src="{{ asset('images/logo1.jpg') }}" class="logo" alt="Logo">
     <input type="text" class="search-bar" placeholder="Search Here...">
   </header>
 
@@ -16,22 +16,31 @@
   <form action="{{ route('details') }}" method="POST">
     @csrf
     <section class="details">
-      <h2>PRODUCT DETAILS</h2>
+      <h2>CUSTOMER DETAILS</h2>
       <div class="details-grid">
         <div class="details-item">
-          <img src="../image/Ultrasheild.jpg" alt="">
-          <p>ULTRASHEILD</p>
-          <p>Price: $50</p>
-          <p>Description: A high-quality paint for all surfaces.</p>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </br>
+        </br>
         </div>
+
         <div class="details-item">
-          <img src="../image/Kalerschield.jpg" alt="">
-          <p>KALERSHEILD</p>
-          <p>Price: $45</p>
-          <p>Description: Durable and long-lasting paint.</p>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required> 
+        </br>
+        </br>
         </div>
-      </div>
-    </section>
+
+        <div class="details-item">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+        </br>
+        </br>        
+        </div>
+        <div class="details-button">
+            <button type="submit">Order Now</button>
+            <button type="back">Back</button>
   </section>
 </body>
 </html>

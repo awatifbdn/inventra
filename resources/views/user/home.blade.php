@@ -15,7 +15,7 @@
   <!-- Banner -->
   <section class="carousel">
     <button class="carousel-btn left">❮</button>
-    <img src="{{ asset('image/Banner3.jpg') }}" class="carousel-img" alt="Banner">
+    <img src="{{ asset('images/banner3.jpg') }}" class="carousel-img" alt="Banner">
     <button class="carousel-btn right">❯</button>
   </section>
 

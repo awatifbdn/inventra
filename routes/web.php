@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\OrderController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -49,3 +50,5 @@ Route::get('/colour', function () {
 Route::get('/details', function () {
     return view('user.details');
 })->name('details');
+
+Route::post('/details', [OrderController::class, 'store'])->name('order.details');

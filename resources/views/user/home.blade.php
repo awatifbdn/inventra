@@ -8,14 +8,14 @@
 <body>
   <!-- Header -->
   <header class="navbar">
-    <img src="https://via.placeholder.com/120x40?text=INVENTRA" class="logo" alt="Logo">
+    <img src="{{ asset('images/logo1.jpg') }}" class="logo" alt="Logo">
     <input type="text" class="search-bar" placeholder="Search Here...">
   </header>
 
   <!-- Banner -->
   <section class="carousel">
     <button class="carousel-btn left">❮</button>
-    <img src="../image/Banner3.jpg" class="carousel-img" alt="Banner">
+    <img src="{{ asset('image/Banner3.jpg') }}" class="carousel-img" alt="Banner">
     <button class="carousel-btn right">❯</button>
   </section>
 

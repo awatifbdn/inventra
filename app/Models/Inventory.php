@@ -18,8 +18,14 @@ class Inventory extends Model
         'color',
         'litre',
         'pail_quantity',
-        'Additional_notes',
+        'notes',
     ];
 
     public $timestamps = true; // Enable timestamps if needed...
+
+    public function stockHistories()
+{
+    return $this->hasMany(StockHistory::class);
+}
+
 }

@@ -10,13 +10,13 @@ return new class extends Migration
     {
         Schema::create('inventory', function (Blueprint $table) {
             $table->id();
-            $table->string('productCode')->unique();
+            $table->string('productCode')->nullable();
             $table->string('productName');
             $table->string('category');
             $table->string('color');
             $table->integer('litre');
             $table->integer('pail_quantity');
-            $table->text('Additional_notes')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
 

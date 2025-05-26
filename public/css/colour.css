@@ -31,33 +31,69 @@ body {
   font-size: 20px;
 }
 
-.Pallete {
+.product-page {
   background-color: #fff;
   margin: 20px;
   padding: 20px;
   border-radius: 8px;
 }
 
-.Pallete h2 {
-  font-weight: bold;
-  margin-bottom: 20px;
+.select-colour-btn {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  width: 100%;
 }
 
-.Pallete-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 20px;
+.colour-dropdown {
+  display: none;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-top: 5px;
+  background: #fff;
+  border-radius: 6px;
+  z-index: 9999;
+  position: absolute;
 }
 
-.Pallete-item {
-  text-align: center;
-  font-size: 12px;
-}
-
-.Pallete-item img {
-  border: 2px solid black;
-  width: 80px;
-  height: 100px;
+.colour-dropdown.show {
   display: block;
-  margin: 0 auto 5px;
+}
+
+.colour-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.colour-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.selected-option-display {
+  margin-top: 10px;
+}
+
+
+.colour-preview {
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.dropdown-options {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 10;
+  width: 200px;
 }

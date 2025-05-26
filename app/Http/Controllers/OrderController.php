@@ -14,7 +14,7 @@ class OrderController extends Controller
             'email' => 'required|email|',
             'phone' => 'required|string|max:20',
         ]);
-        // Optional: flash a success message and redirect
         return redirect()->route('order now')->with('success', 'Order placed successfully!');
+        // Optional: flash a success message and redirect
     }
 }

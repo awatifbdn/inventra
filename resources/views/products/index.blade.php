@@ -89,6 +89,7 @@
                             <th class="px-6 py-3">Min Price (RM)</th>
                             <th class="px-6 py-3">Max Price (RM)</th>
                             <th class="px-6 py-3">Image</th>
+                            <th class="px-6 py-3">Color</th>
                             <th class="px-6 py-3">Action</th>
                         </tr>
                     </thead>
@@ -126,6 +127,12 @@
                     @endif
 
                     </td>
+                   <td>
+                    <a href="{{ route('colors.index', $product->id) }}" class="text-blue-600 hover:underline">
+                        Available color
+                    </a>
+                </td>
+
                     <td class="px-6 py-4 flex gap-2">
                           
                         <!-- Edit Modal Trigger -->

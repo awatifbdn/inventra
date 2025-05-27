@@ -18,4 +18,10 @@ class Product extends Model
         'image_url', // Store array of image URLs...
       ];
 
+      public function colors()
+        {
+            return $this->hasMany(Color::class);
+        }
+
+
 }

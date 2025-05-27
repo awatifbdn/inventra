@@ -50,6 +50,29 @@ class InventoryController extends Controller
                 // Optional: flash a success message and redirect
                 return redirect()->route('inventory.index')->with('success', 'Product added successfully!');
             }
+public function edit(Inventory $inventory)
+            {
+                return view('inventory.edit', compact('inventoriy'));
+            }
+
+public function update(Request $request, Inventory $inventory)
+            {
+                $validated = $request->validate([
+                    'productCode'     => 'nullable|string|max:255',
+                    'productName'     => 'required|string|max:255',
+                    'pail_quantity'   => 'required|integer|min:1',
+                    'category'        => 'required|string|max:100',
+                    'color'           => 'nullable|string|max:100',
+                    'litre'           => 'required|numeric|min:0.5',
+                    'notes'           => 'nullable|string|max:500',
+                ]);
+
+                $inventory->update($validated);
+
+                return redirect()->route('inventory.index')->with('success', 'Product updated successfully!');
+            }
+
+            
 
 // Update stock
 public function updateStock(Request $request)

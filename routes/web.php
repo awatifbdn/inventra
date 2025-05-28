@@ -7,6 +7,7 @@ use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaintCategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -52,3 +53,6 @@ Route::get('/details', function () {
 })->name('details');
 
 Route::post('/details', [OrderController::class, 'store'])->name('order.details');
+
+Route::get('/', [PaintCategoryController::class, 'index'])->name('home');
+Route::get('/category/{id}', [PaintCategoryController::class, 'show'])->name('category.show');

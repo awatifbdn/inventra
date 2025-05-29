@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('color_litres', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('color_id')->constrained('colors')->onDelete('cascade');
+           $table->foreignId('color_id')->constrained('colors')->onDelete('cascade');
             $table->decimal('litre', 5, 2);
             $table->decimal('price', 8, 2);
             $table->timestamps();

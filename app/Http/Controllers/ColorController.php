@@ -18,43 +18,44 @@ class ColorController extends Controller
     return view('colors.index', compact('product', 'colors'));
 }
 
-public function store(Request $request, Product $product)
+public function store(Request $request, $productId)
 {
+    // Validate the base color info
     $validated = $request->validate([
-        'color_name'   => 'required|string|max:255',
-        'color_code'   => 'nullable|string|max:20',
-        'color_pallet' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-        'litres'       => 'required|array',
-        'litres.*'     => 'required|numeric|min:0',
-        'prices'       => 'required|array',
-        'prices.*'     => 'required|numeric|min:0',
+        'color_name' => 'required|string|max:255',
+        'color_code' => 'required|string|max:7',
+        'color_pallet' => 'nullable|image',
+        'litres' => 'required|array',
+        'litres.*' => 'required|numeric|min:0.01',
+        'prices' => 'required|array',
+        'prices.*' => 'required|numeric|min:0',
     ]);
 
-    // Handle image upload
+    // Handle image upload (optional)
     $palletPath = null;
     if ($request->hasFile('color_pallet')) {
         $palletPath = $request->file('color_pallet')->store('color_pallets', 'public');
     }
 
-    // Save color
-    $color = new Color();
-    $color->product_id = $product->id;
-    $color->color_name = $validated['color_name'];
-    $color->color_code = $validated['color_code'];
-    $color->color_pallet = $palletPath;
-    $color->save();
+    // Create Color
+    $color = Color::create([
+        'color_name' => $validated['color_name'],
+        'color_code' => $validated['color_code'],
+        'color_pallet' => $palletPath,
+        'product_id' => $productId,
+    ]);
 
-    // Save related litres and prices
+    // Store each litre & price combo
     foreach ($validated['litres'] as $index => $litre) {
-        ColorLitre::create([
-            'color_id' => $color->id,
-            'litre'    => $litre,
-            'price'    => $validated['prices'][$index],
+        $price = $validated['prices'][$index];
+        $color->litres()->create([
+            'litre' => $litre,
+            'price' => $price,
         ]);
     }
+    
 
-    return redirect()->route('colors.index', $product)
-                     ->with('success', 'Color and its pricing added successfully!');
+    return redirect()->back()->with('success', 'Color and pricing saved successfully.');
 }
 
 }

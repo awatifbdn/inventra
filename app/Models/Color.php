@@ -15,8 +15,6 @@ class Color extends Model
     "color_name",
     "color_code", // e.g., HEX: #FFFFFF
     "color_pallet", // Optional: e.g., it's an image to display the color
-    "price", // e.g., 99.99
-    "litre", // e.g., 5.00 litres
     "product_id" // Foreign Key to products table
     ];
 
@@ -29,6 +27,5 @@ class Color extends Model
     {
         return $this->hasMany(ColorLitre::class, 'color_id');
     }
-
 
 }

@@ -17,9 +17,14 @@ class ColorController extends Controller
 
     return view('colors.index', compact('product', 'colors'));
 }
-
+    public function create()
+    {
+    // Show form to create a new color for a product
+        return view('colors.create');
+    }
 public function store(Request $request, $productId)
 {
+  
     // Validate the base color info
     $validated = $request->validate([
         'color_name' => 'required|string|max:255',
@@ -43,19 +48,26 @@ public function store(Request $request, $productId)
         'color_code' => $validated['color_code'],
         'color_pallet' => $palletPath,
         'product_id' => $productId,
+
     ]);
 
-    // Store each litre & price combo
-    foreach ($validated['litres'] as $index => $litre) {
-        $price = $validated['prices'][$index];
-        $color->litres()->create([
-            'litre' => $litre,
-            'price' => $price,
-        ]);
-    }
     
-
-    return redirect()->back()->with('success', 'Color and pricing saved successfully.');
+foreach ($validated['litres'] as $index => $litre) {
+    $price = $validated['prices'][$index];
+    $color->litres()->create([
+        'litre' => $litre,
+        'price' => $price,
+    ]);
 }
+  
+
+   return redirect()->route('colors.index', ['product' => $color->product_id])
+                 ->with('success', 'Color and litres added successfully.');
+
+
+}
+
+
+
 
 }

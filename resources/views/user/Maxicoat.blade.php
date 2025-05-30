@@ -17,21 +17,22 @@
   <div class="product-page">
     <div class="product-container">
       <div class="product-image">
-        <img src="{{ asset('images/Ultrasheild.jpeg') }}" alt="Product Image">
+        <img src="{{ asset('images/Maxicoat.png') }}" alt="Product Image">
       </div>
       <div class="product-details">
-        <h1>ULTRASHEILD</h1>
-        <p>An acrylic emulsion paint specially formulated to provide additional protection for exterior walls.
-        </br> </br>It acts as a durable coat and protect your walls from weather variation and fungus.</p>
+        <h1>MAXICOAT</h1>
+        <p>Specially formulated water based copolymer emulsion coatings. 
+          It has styrene acrylic resin content which provide a matte finish to almost kind of surfaces. 
+          Smooth finish with low toxic and non-smell.</p>
 
       <div class="product-price">
         <label for="size">Pack Size:</label>
         <select name="size" id="size" onchange="updatePrice()">
-          <option value="5" data-price="90.90">1 liter</option>
-          <option value="10" data-price="200.90">10 liter</option>
-          <option value="15" data-price="350.60">15 liter</option>
+          <option value="5" data-price="140.50">1 liter</option>
+          <option value="10" data-price="278.90">10 liter</option>
+          <option value="15" data-price="400.70">15 liter</option>
         </select>
-        <p><strong> Price: </strong><span id="price"> RM 90.90</span></p>
+        <p><strong> Price: </strong><span id="price"> RM 140.50</span></p>
       </div>
 
       <div class="colour-selector">
@@ -88,7 +89,6 @@
             document.getElementById("dropdown-options").classList.remove('show');
           }
         });
-      
     </script>
     </br>
     </br>

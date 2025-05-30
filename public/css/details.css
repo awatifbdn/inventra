@@ -1,0 +1,154 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #e5e5e5;
+}
+
+.navbar {
+  background-color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo {
+  height: 40px;
+}
+
+.menu {
+  display: flex;
+  gap: 15px;
+  font-size: 20px;
+}
+
+.checkout-container {
+    background-color: #fff;
+    margin: 40px auto;
+    padding: 40px 80px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1300px;
+    box-sizing: border-box;
+}
+
+.left-section {
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.left-section input,
+.left-section label {
+    max-width: 900px;
+    width: 80%;
+    display: block;
+}
+
+
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+    width: 80%;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.required {
+    color: red;
+}
+
+
+
+.note {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: red;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.option-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.option {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.option.active {
+    border-color: black;
+}
+
+
+
+.order-summary {
+    background: white;
+    padding: 25px;
+    margin: 80px;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.product-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-info {
+    flex: 1;
+}
+
+.product-info a {
+    font-size: 12px;
+    text-decoration: none;
+    color: blue;
+}
+
+.price {
+    font-weight: bold;
+}

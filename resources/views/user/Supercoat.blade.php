@@ -17,21 +17,21 @@
   <div class="product-page">
     <div class="product-container">
       <div class="product-image">
-        <img src="{{ asset('images/Ultrasheild.jpeg') }}" alt="Product Image">
+        <img src="{{ asset('images/SuperCoat.png') }}" alt="Product Image">
       </div>
       <div class="product-details">
-        <h1>ULTRASHEILD</h1>
-        <p>An acrylic emulsion paint specially formulated to provide additional protection for exterior walls.
-        </br> </br>It acts as a durable coat and protect your walls from weather variation and fungus.</p>
+        <h1>SUPERCOAT</h1>
+        <p>A top quality copolymer emulsion paint, specially formulated to give smooth and aesthetic finish for interior use.
+        </br></br>It is easy to apply, washable, environmentally friendly, fragrance added, and fungus resistant. </p>
 
       <div class="product-price">
         <label for="size">Pack Size:</label>
         <select name="size" id="size" onchange="updatePrice()">
-          <option value="5" data-price="90.90">1 liter</option>
-          <option value="10" data-price="200.90">10 liter</option>
-          <option value="15" data-price="350.60">15 liter</option>
+          <option value="5" data-price="100.00">1 liter</option>
+          <option value="10" data-price="198.80">10 liter</option>
+          <option value="15" data-price="300.00">15 liter</option>
         </select>
-        <p><strong> Price: </strong><span id="price"> RM 90.90</span></p>
+        <p><strong> Price: </strong><span id="price"> RM 100.00</span></p>
       </div>
 
       <div class="colour-selector">
@@ -52,6 +52,7 @@
         </div>
       </div>
     </div>
+
       <div class="form-group">
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" name="quantity" min="1" value="1"> 

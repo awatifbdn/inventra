@@ -17,19 +17,19 @@
   <div class="product-page">
     <div class="product-container">
       <div class="product-image">
-        <img src="{{ asset('images/Ultrasheild.jpeg') }}" alt="Product Image">
+        <img src="{{ asset('images/Glomel.png') }}" alt="Product Image">
       </div>
       <div class="product-details">
-        <h1>ULTRASHEILD</h1>
-        <p>An acrylic emulsion paint specially formulated to provide additional protection for exterior walls.
-        </br> </br>It acts as a durable coat and protect your walls from weather variation and fungus.</p>
+        <h1>GLOMEL</h1>
+        <p>Premium grade alkyd enamel paint, specially formulated for exterior and interior metal and wood surfaces with excellent gloss appearance , 
+          excellent durability even under taugh weather conditions and outstanding resistance to fungus and calking.</p>
 
       <div class="product-price">
         <label for="size">Pack Size:</label>
         <select name="size" id="size" onchange="updatePrice()">
-          <option value="5" data-price="90.90">1 liter</option>
-          <option value="10" data-price="200.90">10 liter</option>
-          <option value="15" data-price="350.60">15 liter</option>
+          <option value="5" data-price="50.90">1 liter</option>
+          <option value="10" data-price="100.90">10 liter</option>
+          <option value="15" data-price="149.90">15 liter</option>
         </select>
         <p><strong> Price: </strong><span id="price"> RM 90.90</span></p>
       </div>
@@ -38,8 +38,8 @@
         <label for="colour">Colour:</label>
         <div class="select-colour-btn" onclick="toggleDropdown()">
           <span id="select-colour-name">Select Colour</span>
-      </div>
-
+        </div>
+    
       <input type ="hidden" id="selected-colour" name="colour" value="">
 
       <div id="dropdown-options" class="colour-dropdown">
@@ -50,8 +50,8 @@
             <span>Corn Silk</span>
           </div>
         </div>
-      </div>
     </div>
+</div>
       <div class="form-group">
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" name="quantity" min="1" value="1"> 

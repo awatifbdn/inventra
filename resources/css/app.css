@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import '../../vendor/livewire/flux-pro/dist/flux-pro.css';
 @import '../../vendor/livewire/flux/dist/flux.css';
 
 @source '../views';
@@ -64,3 +65,4 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+ 

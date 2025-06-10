@@ -50,26 +50,44 @@
   </div>
 
   <!-- Navigation -->
-  <header class="absolute top-6 right-6 text-sm z-10">
+  <!-- Navigation -->
+ <header class="w-full px-6 max-w-7xl mx-auto mt-6 z-10">
     @if (Route::has('login'))
-      <nav class="flex gap-3">
-        @auth
-          <a href="{{ url('/dashboard') }}" class="px-5 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded transition shadow">
-            Dashboard
-          </a>
-        @else
-          <a href="{{ route('login') }}" class="px-5 py-1.5 border rounded border-white hover:bg-white hover:text-black transition">
-            Log in
-          </a>
-          @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="px-5 py-1.5 border rounded border-white hover:bg-white hover:text-black transition">
-              Admin Registration
-            </a>
-          @endif
-        @endauth
-      </nav>
+        <nav class="flex items-center justify-end gap-4 text-sm">
+            @auth
+                <a
+                    href="{{ url('/dashboard') }}"
+                    class="px-5 py-1.5 text-white bg-green-600 hover:bg-green-700 rounded shadow transition"
+                >
+                    Dashboard
+                </a>
+            @else
+                <a
+                    href="{{ route('login') }}"
+                    class="px-5 py-1.5 text-white border border-white/40 hover:border-white hover:bg-white hover:text-black rounded transition"
+                >
+                    Log in
+                </a>
+
+                @if (Route::has('register'))
+                    <a
+                        href="{{ route('register') }}"
+                        class="px-5 py-1.5 text-white border border-white/40 hover:border-white hover:bg-white hover:text-black rounded transition"
+                    >
+                        Register
+                    </a>
+                @endif
+            @endauth
+        </nav>
     @endif
-  </header>
+</header>
+
+       
+
+        @if (Route::has('login'))
+            <div class="h-14.5 hidden lg:block"></div>
+        @endif
+
 
   <!-- Scrollable Content -->
   <main class="relative z-10 w-full flex flex-col items-center px-4 sm:px-6 lg:px-8">

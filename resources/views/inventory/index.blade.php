@@ -13,15 +13,15 @@
          <div class="grid auto-rows-min gap-4 md:grid-cols-3">
             <div class="p-6 rounded-xl border-gray-300 dark:border-zinc-600 bg-yellow-200 dark:bg-gray-800 shadow-md">
                 <h2 class="text-lg font-semibold">Total Stock</h2>
-                <p class="text-2xl font-bold text-green-600 mt-2">1,250</p>
+                <p class="text-2xl font-bold text-green-600 mt-2">{{ number_format($total_stock) }}</p>
             </div>
             <div class="p-6 rounded-xl  border-gray-300 dark:border-zinc-600 bg-yellow-200 dark:bg-gray-800 shadow-md" >
                 <h2 class="text-lg font-semibold">Low Stock</h2>
-                <p class="text-2xl font-bold text-yellow-500 mt-2">75</p>
+                <p class="text-2xl font-bold text-yellow-500 mt-2">{{ number_format($low_stock) }}</p>
             </div>
             <div class="p-6 rounded-xl  border-gray-300 dark:border-zinc-600 bg-yellow-200 dark:bg-gray-800 shadow-md">
                 <h2 class="text-lg font-semibold">Out of Stock</h2>
-                <p class="text-2xl font-bold text-red-500 mt-2">12</p>
+                <p class="text-2xl font-bold text-red-500 mt-2">{{ number_format($out_of_stock) }}</p>
             </div>
         </div>
         <!-- Button Section.. -->
@@ -210,7 +210,7 @@
             </div>
 
             <!-- Search and Filter Form -->
-            <form action="#" method="GET" class="flex flex-wrap items-center gap-4 justify-end">
+            <form action="{{ route('inventory.search') }}" method="GET" class="flex flex-wrap items-center gap-4 justify-end">
                 
                 <!-- Category Dropdown -->
                 <div class="relative">
@@ -218,11 +218,11 @@
                     <select name="category" id="category"
                         class="block w-48 rounded-lg border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-sm text-gray-700 dark:text-white px-4 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
                         <option value="">All Categories</option>
-                        <option value="Interior">Interior</option>
-                        <option value="Exterior">Exterior</option>
-                        <option value="Protective coatings">Protective coatings</option>
-                        <option value="Sports, courts, coatings">Sports, courts, coatings</option>
-                        <option value="Waterproofing solutions">Waterproofing solutions</option>
+                        <option value="Interior" {{ request('category') == 'Interior' ? 'selected' : '' }}>Interior</option>
+                        <option value="Exterior" {{ request('category') == 'Exterior' ? 'selected' : '' }}>Exterior</option>
+                        <option value="Protective coatings" {{ request('category') == 'Protective coatings' ? 'selected' : '' }}>Protective coatings</option>
+                        <option value="Sports, courts, coatings" {{ request('category') == 'Sports, courts, coatings' ? 'selected' : '' }}>Sports, courts, coatings</option>
+                        <option value="Waterproofing solutions" {{ request('category') == 'Waterproofing solutions' ? 'selected' : '' }}>Waterproofing solutions</option>
                     </select>
                 </div>
 

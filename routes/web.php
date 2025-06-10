@@ -39,6 +39,7 @@ Route::put('/inventory/{inventory}', [InventoryController::class, 'update'])->na
 Route::delete('/inventory/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
 Route::get('/inventory/history', [InventoryController::class, 'history'])->name('inventory.history');
 Route::post('/inventory/update-stock', [InventoryController::class, 'updateStock'])->name('inventory.updateStock');
+Route::get('/inventory/search', [InventoryController::class, 'search'])->name('inventory.search');
 
 
 
@@ -47,7 +48,11 @@ Route::post('/inventory/update-stock', [InventoryController::class, 'updateStock
 Route::prefix('products/{product}')->group(function () {
     Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
     Route::post('colors', [ColorController::class, 'store'])->name('colors.store');
+    Route::delete('colors/bulk-delete', [ColorController::class, 'bulkDelete'])->name('colors.bulkDelete');
+    Route::post('colors/adjust-price', [ColorController::class, 'adjustPrice'])->name('colors.adjustPrice');
 });
+
+
 
 
 

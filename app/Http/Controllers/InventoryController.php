@@ -17,8 +17,52 @@ class InventoryController extends Controller
                     'inventory' => $inventory,
                     'from_date' => null,
                     'to_date' => null,
+                    'total_stock' => Inventory::sum('pail_quantity'),
+                    'low_stock' => Inventory::where('pail_quantity', '<', 10)->count(),
+                    'out_of_stock' => Inventory::where('pail_quantity', 0)->count(),
                 ]);
             }
+    
+   
+public function search()
+{
+    $search = request()->input('search');
+    $category = request()->input('category');
+
+    $query = Inventory::query();
+
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('productName', 'like', "%{$search}%")
+              ->orWhere('productCode', 'like', "%{$search}%");
+        });
+    }
+
+    if ($category) {
+        $query->where('category', $category);
+    }
+
+    $inventory = $query->get();
+
+    // If no exact matches, try fuzzy match on productName
+    $suggestions = collect();
+    if ($inventory->isEmpty() && $search) {
+        $suggestions = Inventory::where('productName', 'like', "%{$search}%")
+                                ->orWhere('productCode', 'like', "%{$search}%")
+                                ->limit(5)
+                                ->get();
+    }
+
+    return view('inventory.index', [
+        'inventory' => $inventory,
+        'suggestions' => $suggestions,
+        'from_date' => null,
+        'to_date' => null,
+        'total_stock' => Inventory::sum('pail_quantity'),
+        'low_stock' => Inventory::where('pail_quantity', '<', 10)->count(),
+        'out_of_stock' => Inventory::where('pail_quantity', 0)->count(),
+    ]);
+}
 
 
     // Store a new product..

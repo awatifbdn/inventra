@@ -134,39 +134,72 @@
                 <h3 class="text-xl font-semibold text-gray-700 dark:text-white">Available Colors</h3>
                 <div class="flex items-center gap-4">
                     <div class="relative">
-                        <input type="text" placeholder="Search..." class="rounded-full pl-4 pr-10 py-2 text-sm border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        <span class="absolute right-3 top-2.5 text-gray-400 dark:text-gray-500">&#128269;</span>
+                          <!-- Search and Filter Form -->
+            <form action="{{ route('inventory.search') }}" method="GET" class="flex flex-wrap items-center gap-4 justify-end">
+                
+                <!-- Category Dropdown -->
+                <div class="relative">
+                    
+                </div>
+
+                <!-- Search Input -->
+                <div class="flex-1 min-w-xs">
+                    <flux:input name="search" placeholder="Search products..." />
+                </div>
+
+                <!-- Search Button -->
+                <div>
+                    <flux:button icon="magnifying-glass" type="submit" variant="primary">
+                        <span class="hidden sm:inline">Search</span>
+                    </flux:button>
+                </div>
+
+            </form>
                     </div>
                  
                 </div>
             </div>
 
-<div class="overflow-x-auto rounded-xl shadow-md border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800">
+
+<div 
+ class="overflow-x-auto rounded-xl shadow-md border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800">
   <table class="min-w-full w-full divide-y divide-gray-200 dark:divide-zinc-700 text-sm text-center">
         <thead class="bg-gray-100 dark:bg-zinc-700 text-gray-700 dark:text-gray-300">
             <tr>
+                <th class="px-4 py-3 text-left">
+                        <input type="checkbox"
+                            x-model="selectAll"
+                            @change="toggleAll"
+                            :indeterminate="isIndeterminate()"
+                            x-init="updateMasterCheckbox($el)">
+                    </th>
                 <th class="px-4 py-3 text-left">Color</th>
                 <th class="px-4 py-3 text-left">Code</th>
                 <th class="px-4 py-3 text-left">Preview</th>
                 <th class="px-4 py-3 text-left">Litres</th>
-                <th class="px-4 py-3 text-left">Price
-                    <form method="POST" action="" class="flex items-center gap-1">
-                @csrf
-                <input type="number" name="percentage" step="0.01" min="-100" max="100" placeholder="%" class="w-16 px-2 py-1 rounded border border-gray-300 text-xs" required>
-                <button type="submit" name="action" value="increase" class="px-2 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600" title="Increase">
-                    +
-                </button>
-                <button type="submit" name="action" value="decrease" class="px-2 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600" title="Decrease">
-                    –
-                </button>
-            </form>
-                </th>
+                <th class="px-4 py-3 text-left relative">Price</th>
                 <th class="px-4 py-3 text-right">Actions</th>
             </tr>
+            <tr>
+                {{-- Bulk Actions Bar --}}
+                <x-color.bulk-action-bar
+                    :product-id="$product->id"
+                    :color-ids="$product->colors->pluck('id')->toArray()"
+                />
+            </tr>   
         </thead>
         <tbody class="divide-y divide-gray-100 dark:divide-zinc-700">
-            @foreach($product->colors as $color)
+            @foreach($colors as $color)
                 <tr>
+                    <td>
+                        <div class="items-center justify-center">
+                        <input type="checkbox"
+                            value="{{ $color->id }}"
+                            x-model="selected"
+                            @change="checkSelectAll">
+                        </div>
+                    </td>
+
                     {{-- Color Name --}}
                     <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">
                         {{ $color->color_name }}
@@ -225,7 +258,47 @@
             @endforeach
         </tbody>
     </table>
+    
+    <!-- For Debugging -->
+    <p class="text-sm mt-2">Selected: <span x-text="JSON.stringify(selected)"></span></p>
+
 </div>
  </div>
 </div>
+<script>
+    function priceManager(allIds, deleteUrl, adjustPriceUrl) {
+    return {
+        all: allIds, // define it here
+        selected: [],
+        selectAll: false,
+        deleteUrl,
+        adjustPriceUrl,
+
+        toggleAll() {
+            if (this.selectAll) {
+                this.selected = [...this.all];
+            } else {
+                this.selected = [];
+            }
+        },
+
+        checkSelectAll() {
+            this.selectAll = this.all.every(id => this.selected.includes(id.toString()));
+        },
+
+        isIndeterminate() {
+            return this.selected.length > 0 && this.selected.length < this.all.length;
+        },
+
+        updateMasterCheckbox(el) {
+            el.indeterminate = this.isIndeterminate();
+        },
+
+        openAdjustModal() {
+            this.$refs.adjustModal.showModal();
+        }
+    };
+}
+</script>
+
 </x-layouts.app>

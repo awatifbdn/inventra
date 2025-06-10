@@ -67,7 +67,23 @@ foreach ($validated['litres'] as $index => $litre) {
 
 }
 
+  public function bulkDelete(Request $request, Product $product)
+    {
+        $ids = explode(',', $request->input('ids'));
 
+        Color::whereIn('id', $ids)->where('product_id', $product->id)->delete();
 
+        return back()->with('success', 'Selected colors deleted.');
+    }
+
+    public function adjustPrice(Request $request, Product $product)
+    {
+        $ids = explode(',', $request->input('ids'));
+        $price = $request->input('price');
+
+        Color::whereIn('id', $ids)->where('product_id', $product->id)->update(['price' => $price]);
+
+        return back()->with('success', 'Price updated.');
+    }
 
 }

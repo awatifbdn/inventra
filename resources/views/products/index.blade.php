@@ -127,11 +127,18 @@
                     @endif
 
                     </td>
-                   <td>
-                    <a href="{{ route('colors.index', $product->id) }}" class="text-blue-600 hover:underline">
-                        Available color
-                    </a>
+                 <td class="text-center">
+                    <form action="{{ route('colors.index', $product->id) }}" method="GET">
+                        <button
+                            type="submit"
+                            class="text-2xl text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out"
+                            title="View Colors"
+                        >
+                            🎨
+                        </button>
+                    </form>
                 </td>
+
 
                     <td class="px-6 py-4 flex gap-2">
                           

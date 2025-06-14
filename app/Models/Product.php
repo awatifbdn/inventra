@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Color;
 
 class Product extends Model
 {
@@ -17,5 +18,11 @@ class Product extends Model
         'max_price',
         'image_url', // Store array of image URLs...
       ];
+
+      public function colors()
+        {
+            return $this->hasMany(Color::class);
+        }
+
 
 }

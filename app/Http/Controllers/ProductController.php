@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -92,10 +93,23 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
 
-    public function destroy(Product $product)
-    {
-        $product->delete();
+    public function destroy($id)
+        {
+            $product = Product::findOrFail($id);
 
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
-    }
+            // Delete associated image files from storage
+            if ($product->image_url) {
+                $images = json_decode($product->image_url, true);
+                if (is_array($images)) {
+                    foreach ($images as $image) {
+                        Storage::disk('public')->delete($image);
+                    }
+                }
+            }
+
+            // Delete the product from the database
+            $product->delete();
+
+            return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+        }
 }

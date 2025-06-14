@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\OrderController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
@@ -36,12 +37,31 @@ Route::resource('products', ProductController::class)->except(['show']);
 
 
 
-Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index'); // main view
+Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index'); // Main view
 Route::post('/inventory', [InventoryController::class, 'store'])->name('inventory.store');
-Route::post('/inventory/update-stock', [InventoryController::class, 'updateStock'])->name('inventory.updateStock');
+Route::get('/inventory/{inventory}/edit', [InventoryController::class, 'edit'])->name('inventory.edit');
 Route::put('/inventory/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
 Route::delete('/inventory/{inventory}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
-Route::get('/inventory/history', [InventoryController::class, 'history'])->name('inventory.history'); 
+Route::get('/inventory/history', [InventoryController::class, 'history'])->name('inventory.history');
+Route::post('/inventory/update-stock', [InventoryController::class, 'updateStock'])->name('inventory.updateStock');
+Route::get('/inventory/search', [InventoryController::class, 'search'])->name('inventory.search');
+
+
+
+
+
+Route::prefix('products/{product}')->group(function () {
+    Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
+    Route::post('colors', [ColorController::class, 'store'])->name('colors.store');
+    Route::delete('colors/bulk-delete', [ColorController::class, 'bulkDelete'])->name('colors.bulkDelete');
+    Route::post('colors/adjust-price', [ColorController::class, 'adjustPrice'])->name('colors.adjustPrice');
+});
+
+
+
+
+
+
 
 Route::get('/colour', function () {
     return view('user.colour');

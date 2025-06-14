@@ -89,6 +89,7 @@
                             <th class="px-6 py-3">Min Price (RM)</th>
                             <th class="px-6 py-3">Max Price (RM)</th>
                             <th class="px-6 py-3">Image</th>
+                            <th class="px-6 py-3">Color</th>
                             <th class="px-6 py-3">Action</th>
                         </tr>
                     </thead>
@@ -126,6 +127,19 @@
                     @endif
 
                     </td>
+                 <td class="text-center">
+                    <form action="{{ route('colors.index', $product->id) }}" method="GET">
+                        <button
+                            type="submit"
+                            class="text-2xl text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out"
+                            title="View Colors"
+                        >
+                            🎨
+                        </button>
+                    </form>
+                </td>
+
+
                     <td class="px-6 py-4 flex gap-2">
                           
                         <!-- Edit Modal Trigger -->

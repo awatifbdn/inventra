@@ -8,11 +8,10 @@
 
         <!-- Top Bar -->
         <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-semibold text-white">Inventory</h1>
+            <h1 class="text-2xl mt-6 font-semibold text-white">Stock Update History</h1>
         </div>
 
     <div>
-        <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Stock Update History</h2>
             <div class="container w-full px-4 sm:px-6 lg:px-8 py-6 mt-6">
                 <!-- Header + Date Filter -->
                 <form method="GET" action="{{ route('inventory.history') }}" class="flex gap-4 items-end mb-4">

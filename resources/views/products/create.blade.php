@@ -15,14 +15,13 @@
                 </div>
 
                 <div class="grid gap-4 md:grid-cols-2">
-                    <flux:select label="Category" name="category" onchange="updatePreview()">
-                        <option value="">Select a category</option>
-                        <option value="Exterior">Exterior</option>
-                        <option value="Interior">Interior</option>          
-                        <option value="Glomel">Glomel</option>
-                        <option value="Protective coatings">Protective coatings</option>
-                        <option value="Sports, courts, coatings">Sports, courts, coatings</option>
-                        <option value="Waterproofing solutions">Waterproofing solutions</option>
+                    <flux:select wire.model="industry" label="Category" placeholder="Category" name="category" onchange="updatePreview()">
+                        <flux:select.option value="Exterior">Exterior</flux:select.option>
+                        <flux:select.option value="Interior">Interior</flux:select.option>        
+                        <flux:select.option value="Glomel">Glomel</flux:select.option>
+                        <flux:select.option value="Protective coatings">Protective coatings</flux:select.option>
+                        <flux:select.option value="Sports, courts, coatings">Sports, courts, coatings</flux:select.option>
+                        <flux:select.option value="Waterproofing solutions">Waterproofing solutions</flux:select.option>
                     </flux:select>
                 </div>
 
@@ -47,6 +46,8 @@
                         class="w-full rounded-lg border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 px-4 py-2 text-sm text-gray-700 dark:text-white shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition"
                     />
                 </div>
+               <div id="colorFields" class="space-y-4"></div>
+
 
                 <div class="flex justify-end gap-3 pt-4">
                     <flux:button as="a" href="{{ route('products.index') }}" variant="filled">Cancel</flux:button>

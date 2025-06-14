@@ -1,10 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Inventra</title>
-    <link rel="stylesheet" href="../CSS/colour.css">
-
+  <link rel="stylesheet" href="../CSS/colour.css">
 </head>
 <body>
   <!-- Header -->
@@ -44,11 +44,13 @@
 
       <div id="dropdown-options" class="colour-dropdown">
         <div class="colour-grid">
-          <div class="colour-item" onclick="selectColour('Corn Silk', 
-          '{{ asset('images/CornSilk.jpg')}}')">
-            <img src="{{ asset('images/CornSilk.jpg') }}" alt="Corn Silk">
-            <span>Corn Silk</span>
+          @foreach ($colours as $colour)
+          <div class="colour-item" 
+            onclick="selectColour('{{ $colour->name }}', '{{ asset($colour->image_path) }}')">
+            <img src="{{ asset($colour->image_path) }}" alt="{{ $colour->name }}">
+            <span>{{ $colour->name }}</span>
           </div>
+          @endforeach
         </div>
     </div>
 </div>

@@ -48,23 +48,23 @@ Route::get('/colour', function () {
 })->name('colour');
 
 Route::get('/Kalersheild', function () {
-    return view('user.kalersheild');
+    return view('user.Kalersheild');
 })->name('kalersheild');
 
 Route::get('/Supercoat', function () {
-    return view('user.supercoat');
+    return view('user.Supercoat');
 })->name('supercoat');
 
 Route::get('/Maxicoat', function () {
-    return view('user.maxicoat');
+    return view('user.Maxicoat');
 })->name('maxicoat');
 
 Route::get('/MaxicoatLite', function () {
-    return view('user.maxicoatlite');
+    return view('user.MaxicoatLite');
 })->name('maxicoatlite');
 
 Route::get('/Glomel', function () {
-    return view('user.glomel');
+    return view('user.Glomel');
 })->name('glomel');
 
 Route::get('/details', function () {

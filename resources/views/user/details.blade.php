@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +24,12 @@
         <label for="phone">Phone Number <span class="required">*</span></label>
         <input type="tel" id="phone" required>
 
+            <!-- Add buttons here -->
+    <div class="button-group">
+        <button type="submit" class="button-order">Order Now</button>
+    </div>
+
+
     </div>
 
     <div class="right-section">
@@ -40,6 +47,7 @@
             </div>
         </div>
     </div>
+
 </div>
 </body>
 </html>

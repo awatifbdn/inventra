@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Inventra | Paint Distribution System</title>
+  <title>Inventra</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -24,7 +24,6 @@
       animation: float 3s ease-in-out infinite;
       transform-origin: center;
     }
-
     @keyframes float {
       0% { transform: translateY(0) scale(1); }
       50% { transform: translateY(-10px) scale(1.05); }
@@ -80,9 +79,7 @@
             @endauth
         </nav>
     @endif
-</header>
-
-       
+</header
 
         @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>

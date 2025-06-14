@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\OrderController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -10,6 +11,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('home');
+
+Route::get('/home', function () {
+    return view('user.home');
 })->name('home');
 
 Route::view('dashboard', 'dashboard')
@@ -58,5 +63,32 @@ Route::prefix('products/{product}')->group(function () {
 
 
 
+Route::get('/colour', function () {
+    return view('user.colour');
+})->name('colour');
 
+Route::get('/Kalersheild', function () {
+    return view('user.kalersheild');
+})->name('kalersheild');
 
+Route::get('/Supercoat', function () {
+    return view('user.supercoat');
+})->name('supercoat');
+
+Route::get('/Maxicoat', function () {
+    return view('user.maxicoat');
+})->name('maxicoat');
+
+Route::get('/MaxicoatLite', function () {
+    return view('user.maxicoatlite');
+})->name('maxicoatlite');
+
+Route::get('/Glomel', function () {
+    return view('user.glomel');
+})->name('glomel');
+
+Route::get('/details', function () {
+    return view('user.details');
+})->name('details');
+
+Route::post('/details', [OrderController::class, 'store'])->name('order.details');

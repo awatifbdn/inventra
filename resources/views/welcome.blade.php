@@ -48,7 +48,7 @@
     @endforeach
   </div>
 
-  <!-- Navigation -->
+
   <!-- Navigation -->
  <header class="w-full px-6 max-w-7xl mx-auto mt-6 z-10">
     @if (Route::has('login'))
@@ -82,7 +82,7 @@
 </header
 
         @if (Route::has('login'))
-            <div class="h-14.5 hidden lg:block"></div>
+            <div class="h-14.5 hidden lg:block" ></div>
         @endif
 
 
@@ -97,7 +97,7 @@
         Your trusted partner for efficient paint distribution. Explore vibrant colors, manage inventory with ease, and discover new finishes for your next project.
       </p>
       <div class="flex justify-center gap-4">
-        <a href="#" class="px-6 py-2 bg-[#F53003] hover:bg-[#c82302] text-white rounded-lg shadow transition">
+        <a href="{{ route('catalog.index') }}" class="px-6 py-2 bg-[#F53003] hover:bg-[#c82302] text-white rounded-lg shadow transition">
           Browse Catalog
         </a>
       </div>

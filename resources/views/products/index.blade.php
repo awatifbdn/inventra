@@ -164,7 +164,7 @@
                                             <option value="Exterior" {{ $product->category == 'Exterior' ? 'selected' : '' }}>Exterior</option>
                                             <option value="Interior" {{ $product->category == 'Interior' ? 'selected' : '' }}>Interior</option>
                                             <option value="Glomel" {{ $product->category == 'Glomel' ? 'selected' : '' }}>Glomel</option>
-                                            <option value="Protective coatings" {{ $product->category == 'Protective coatings' ? 'selected' : '' }}>Protective coatings</option>
+                                            <option value="Exterior & Interior" {{ $product->category == 'Exterior & Interior' ? 'selected' : '' }}>Exterior & Interior</option>
                                             <option value="Sports, courts, coatings" {{ $product->category == 'Sports, courts, coatings' ? 'selected' : '' }}>Sports, courts, coatings</option>
                                             <option value="Waterproofing solutions" {{ $product->category == 'Waterproofing solutions' ? 'selected' : '' }}>Waterproofing solutions</option>
                                         </flux:select>

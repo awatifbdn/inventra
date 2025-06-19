@@ -19,7 +19,7 @@
                         <flux:select.option value="Exterior">Exterior</flux:select.option>
                         <flux:select.option value="Interior">Interior</flux:select.option>        
                         <flux:select.option value="Glomel">Glomel</flux:select.option>
-                        <flux:select.option value="Protective coatings">Protective coatings</flux:select.option>
+                        <flux:select.option value="Exterior & Interior">Exterior & Interior</flux:select.option>
                         <flux:select.option value="Sports, courts, coatings">Sports, courts, coatings</flux:select.option>
                         <flux:select.option value="Waterproofing solutions">Waterproofing solutions</flux:select.option>
                     </flux:select>

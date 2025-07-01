@@ -1,0 +1,99 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #e5e5e5;
+}
+
+.navbar {
+  background-color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo {
+  height: 40px;
+}
+
+.search-bar {
+  flex: 1;
+  margin: 0 20px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+}
+
+.menu {
+  display: flex;
+  gap: 15px;
+  font-size: 20px;
+}
+
+.product-page {
+  background-color: #fff;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.select-colour-btn {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  width: 100%;
+}
+
+.colour-dropdown {
+  display: none;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-top: 5px;
+  background: #fff;
+  border-radius: 6px;
+  z-index: 9999;
+  position: absolute;
+}
+
+.colour-dropdown.show {
+  display: block;
+}
+
+.colour-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.colour-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.selected-option-display {
+  margin-top: 10px;
+}
+
+
+.colour-preview {
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.dropdown-options {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 10;
+  width: 200px;
+}

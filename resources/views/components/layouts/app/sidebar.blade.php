@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< Updated upstream
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="light">
 <head>
     @include('partials.head')
@@ -9,6 +10,20 @@
     stashable 
     style="background: linear-gradient(to bottom right, #E9D5FF, #FEF9C3);" 
     class="border-r border-zinc-200">
+=======
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+    <head>
+        @include('partials.head')
+    </head>
+    <body class="min-h-screen bg-white dark:bg-zinc-800">
+        <flux:sidebar
+    sticky
+    stashable
+    class="border-r border-zinc-200 bg-gradient-to-br from-purple-200 to-yellow-100 text-gray-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
+>
+
+            <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
+>>>>>>> Stashed changes
 
     <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 

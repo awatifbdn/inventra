@@ -1,349 +1,221 @@
-
 <x-layouts.app :title="__('Inventory')">
-     @include('inventory.nav-tabs')
+    @include('inventory.nav-tabs')
 
     <div class="flex w-full flex-1 flex-col gap-6 rounded-xl">
 
-        <!-- Top Bar -->
-        <div class="flex justify-between items-center">
-            <h1 class="text-2xl mt-6 font-semibold text-white">Inventory</h1>
-        </div>
+        <!-- Page Heading -->
+   
 
-        <!-- Dashboard Stats -->
-         <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div class="p-6 rounded-xl border-gray-300 dark:border-zinc-600 bg-yellow-200 dark:bg-gray-800 shadow-md">
-                <h2 class="text-lg font-semibold">Total Stock</h2>
-                <p class="text-2xl font-bold text-green-600 mt-2">{{ number_format($total_stock) }}</p>
-            </div>
-            <div class="p-6 rounded-xl  border-gray-300 dark:border-zinc-600 bg-yellow-200 dark:bg-gray-800 shadow-md" >
-                <h2 class="text-lg font-semibold">Low Stock</h2>
-                <p class="text-2xl font-bold text-yellow-500 mt-2">{{ number_format($low_stock) }}</p>
-            </div>
-            <div class="p-6 rounded-xl  border-gray-300 dark:border-zinc-600 bg-yellow-200 dark:bg-gray-800 shadow-md">
-                <h2 class="text-lg font-semibold">Out of Stock</h2>
-                <p class="text-2xl font-bold text-red-500 mt-2">{{ number_format($out_of_stock) }}</p>
-            </div>
+ <div class="grid gap-6 mt-10 md:grid-cols-3">
+    <!-- Total Stock -->
+    <div style="
+        background: linear-gradient(135deg, #ffffff, #f5f1b1);
+        border-radius: 1rem;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        position: relative;
+        overflow: hidden;
+        padding: 1.5rem;
+       
+    ">
+        <div style="position:absolute; right:1rem; top:1rem; opacity:0.1;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#999999" viewBox="0 0 24 24">
+                <path d="M5 13l4 4L19 7" />
+            </svg>
         </div>
-        <!-- Button Section.. -->
-        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
-            
-            <!-- Left-side Buttons -->
+        <h2 style="font-size: 1.125rem; font-weight: 600; color: #444;">Total Stock</h2>
+        <p style="font-size: 2rem; font-weight: 700; margin-top: 0.5rem; color: #1a1a1a;">{{ number_format($total_stock) }}</p>
+        <p style="font-size: 0.875rem; margin-top: 0.25rem; color: #666;">Increased by 8%</p>
+    </div>
+
+    <!-- Low Stock -->
+    <div style="
+        background: linear-gradient(135deg, #ffffff, #f5f1b1);
+        border-radius: 1rem;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        position: relative;
+        overflow: hidden;
+        padding: 1.5rem;
+       
+    ">
+        <div style="position:absolute; right:1rem; top:1rem; opacity:0.1;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#999999" viewBox="0 0 24 24">
+                <path d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" />
+            </svg>
+        </div>
+        <h2 style="font-size: 1.125rem; font-weight: 600; color: #444;">Low Stock</h2>
+        <p style="font-size: 2rem; font-weight: 700; margin-top: 0.5rem; color: #1a1a1a;">{{ number_format($low_stock) }}</p>
+        <p style="font-size: 0.875rem; margin-top: 0.25rem; color: #666;">Decreased by 10%</p>
+    </div>
+
+    <!-- Out of Stock -->
+    <div style="
+        background: linear-gradient(135deg,  #ffffff, #f5f1b1);
+        border-radius: 1rem;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        position: relative;
+        overflow: hidden;
+        padding: 1.5rem;
+       
+    ">
+        <div style="position:absolute; right:1rem; top:1rem; opacity:0.1;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#999999" viewBox="0 0 24 24">
+                <path d="M12 8v4l3 3" />
+            </svg>
+        </div>
+        <h2 style="font-size: 1.125rem; font-weight: 600; color: #444;">Out of Stock</h2>
+        <p style="font-size: 2rem; font-weight: 700; margin-top: 0.5rem; color: #1a1a1a;">{{ number_format($out_of_stock) }}</p>
+        <p style="font-size: 0.875rem; margin-top: 0.25rem; color: #666;">Decreased by 2%</p>
+    </div>
+</div>
+
+
+
+
+        <!-- Actions + Filters -->
+        <div class="flex flex-col md:flex-row justify-between gap-4">
+            <!-- Action Buttons -->
             <div class="flex gap-3">
                 <flux:modal.trigger name="add-product">
-                    <flux:button variant="primary" size="sm" icon="plus" 
-                        class="inline-flex items-center gap-2 bg-yellow-500 text-white px-6 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                    <flux:button variant="primary" size="sm" icon="plus"
+                        class="inline-flex items-center gap-2 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition">
                         Add Product
                     </flux:button>
                 </flux:modal.trigger>
 
-                <!-- Add Product Modal -->
-                <flux:modal name="add-product">
-                    <form action="{{ route('inventory.store') }}" method="POST">
-                        @csrf   
-                        @method('POST')
-                        <div class="space-y-4 p-4">
-                            <h3 class="text-lg font-semibold dark:text-white text-gray-700">Add New Product</h3><br>
-
-                            <!-- Product Code -->
-                            <div>
-                                <label class="block text-sm font-medium  dark:text-white text-gray-700 mb-2 ">Product Code</label>
-                                <flux:input type="text" name="productCode" placeholder="e.g., 12345" />
-                            </div>
-
-                            <!-- Product Name -->
-                            <div>
-                                <label class="block text-sm font-medium  dark:text-white text-gray-700 mb-2 mt-3">Product Name</label>
-                                <flux:input type="text" name="productName"  placeholder="e.g., Super Gloss Paint" />
-                            </div>
-
-                            <!-- Initial Quantity -->
-                            <div>
-                                <label class="block text-sm font-medium   dark:text-white text-gray-700 mb-2 mt-3">Pail Quantity</label>
-                                <flux:input type="number" min="1" name="pail_quantity" placeholder="e.g., 50" />
-                            </div>
-
-                            <!-- Category -->
-                            <div>
-                                <label class="block text-sm font-medium   dark:text-white text-gray-700 mb-2 mt-3">Category</label>
-                                <flux:select name="category" >
-                                    <option value="" disabled selected>Select category</option>
-                                    <option value="Interior">Interior</option>
-                                    <option value="Exterior">Exterior</option>
-                                    <option value="Glomel">Glomel</option>
-                                    <option value="Protective coatings">Protective coatings</option>
-                                    <option value="Sports, courts, coatings">Sports, courts, coatings</option>
-                                    <option value="Waterproofing solutions">Waterproofing solutions</option>
-                                </flux:select>
-                            </div>
-
-                            <!-- Color -->
-                            <div>
-                                <label class="block text-sm font-medium  dark:text-white text-gray-700 mb-2 mt-3">Color</label>
-                                <flux:input type="text" name="color" placeholder="e.g., Blue" />
-                            </div>
-
-                            <!-- Litre Size -->
-                            <div>
-                                <label class="block text-sm font-medium  dark:text-white text-gray-700 mb-2 mt-3">Litre Size</label>
-                                <flux:input type="number" min="0.5" step="0.5" name="litre" placeholder="e.g., 5" />
-                            </div>
-
-                            <!-- Notes -->
-                            <div>
-                                <label class="block text-sm font-medium  dark:text-white text-gray-700 mb-2 mt-3">Notes</label>
-                                <flux:input type="text" name="notes" placeholder="Optional notes..." />
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="text-right pt-2 mt-4">
-                                <flux:button type="submit" variant="primary" >
-                                    Add Product
-                                </flux:button>
-                            </div>
-                        </div>
-                    </form>
-                </flux:modal>
-
-
                 <flux:modal.trigger name="update-stock">
                     <flux:button variant="primary" size="sm" icon="pencil"
-                        class="inline-flex items-center gap-2 bg-yellow-500 text-white px-6 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                        class="inline-flex items-center gap-2 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition">
                         Update Stock
                     </flux:button>
                 </flux:modal.trigger>
-
-                <!-- Update Stock Modal -->
-              <flux:modal name="update-stock">
-                    <form action="{{ route('inventory.updateStock') }}" method="POST" x-data="productSearch()">
-                        @csrf
-                        <div class="space-y-4 p-4">
-                            <h3 class="text-lg font-semibold text-gray-700 dark:text-white">Update Stock</h3><br>
-
-                            <!-- Live Search -->
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Search Product</label>
-                                <input 
-                                    type="text" 
-                                    class="w-full p-2 rounded-md border border-gray-300"
-                                    placeholder="Type product name or code..."
-                                    x-model="query"
-                                    @click.away="filtered = []"
-                                    @input="filterStocks"
-                                   
-                                />
-                               <ul class="mt-2 text-sm rounded-md border-gray-500 shadow-md max-h-48 overflow-y-auto" role="listbox">
-                                <template x-for="stock in filtered" :key="stock.id">
-                                    <li 
-                                    class="p-2 hover:text-green-800 cursor-pointer text-gray-900 dark:text-white" role="option"
-                                    @click="selectStocks(stock)"
-                                    x-text="stock.productName + ' (' + stock.productCode + ')'">
-                                    </li>
-                                </template>
-                                </ul>
-
-                                <input type="hidden" name="stock_id" :value="selected?.id">
-                                <div class="text-xs text-gray-900 dark:text-white mt-1" x-show="selected">Selected: <span x-text="selected.productName"></span></div>
-                            </div>
-
-                            <!-- Entry Type -->
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Entry Type</label>
-                                <select name="entry_type" class="w-full p-2 rounded-md border border-gray-300">
-                                    <option value="in">Stock In</option>
-                                    <option value="out">Stock Out</option>
-                                </select>
-                            </div>
-
-                            <!-- Quantity -->
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium  text-gray-700 dark:text-white mb-1">Quantity Received</label>
-                                <flux:input type="number" min="1" name="quantity" placeholder="e.g., 10" />
-                            </div>
-
-                            <!-- Date -->
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium  text-gray-700 dark:text-white mb-1">Date Received</label>
-                                <flux:input type="datetime-local" name="entry_date" />
-                            </div>
-
-                            <!-- Optional Note -->
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Note (Optional)</label>
-                                <flux:input type="text" name="note" placeholder="e.g., Shipment received from supplier" />
-                            </div>
-
-
-                            <!-- Submit -->
-                            <div class="text-right pt-2 mb-4">
-                                <flux:button type="submit" variant="primary">Submit Update</flux:button>
-                            </div>
-                        </div>
-                    </form>
-                </flux:modal>
-
-               <script>
-                function productSearch() {
-                    return {
-                        query: '',
-                        selected: null,
-                        products: @json($inventory ?? []),
-                        filtered: [],
-                        filterStocks() {
-                            const q = this.query.toLowerCase();
-                            this.filtered = this.products.filter(p =>
-                                p.productName.toLowerCase().includes(q) ||
-                                p.productCode.toLowerCase().includes(q)
-                            );
-                        },
-                        selectStocks(stock) {
-                            this.selected = stock;
-                            this.query = stock.productName + ' (' + stock.productCode + ')';
-                            this.filtered = [];
-                        }
-                    }
-                }
-            </script>
-
-
-
-  
             </div>
 
-            <!-- Search and Filter Form -->
-            <form action="{{ route('inventory.search') }}" method="GET" class="flex flex-wrap items-center gap-4 justify-end">
-                
-                <!-- Category Dropdown -->
-                <div class="relative">
-                    <label for="category" class="sr-only">Category</label>
-                    <select name="category" id="category"
-                        class="block w-48 rounded-lg border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-sm text-gray-700 dark:text-white px-4 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
-                        <option value="">All Categories</option>
-                        <option value="Interior" {{ request('category') == 'Interior' ? 'selected' : '' }}>Interior</option>
-                        <option value="Exterior" {{ request('category') == 'Exterior' ? 'selected' : '' }}>Exterior</option>
-                        <option value="Protective coatings" {{ request('category') == 'Protective coatings' ? 'selected' : '' }}>Protective coatings</option>
-                        <option value="Sports, courts, coatings" {{ request('category') == 'Sports, courts, coatings' ? 'selected' : '' }}>Sports, courts, coatings</option>
-                        <option value="Waterproofing solutions" {{ request('category') == 'Waterproofing solutions' ? 'selected' : '' }}>Waterproofing solutions</option>
-                    </select>
-                </div>
+            <!-- Search & Filter Form -->
+            <form action="{{ route('inventory.search') }}" method="GET" class="flex flex-wrap gap-3 items-center">
+                <select name="category"
+                    class="w-48 rounded-md border border-gray-300 text-gray-700 px-3 py-2 focus:ring focus:ring-yellow-300">
+                    <option value="">All Categories</option>
+                    <option value="Interior" {{ request('category') == 'Interior' ? 'selected' : '' }}>Interior</option>
+                    <option value="Exterior" {{ request('category') == 'Exterior' ? 'selected' : '' }}>Exterior</option>
+                    <option value="Protective coatings" {{ request('category') == 'Protective coatings' ? 'selected' : '' }}>Protective coatings</option>
+                    <option value="Sports, courts, coatings" {{ request('category') == 'Sports, courts, coatings' ? 'selected' : '' }}>Sports, courts, coatings</option>
+                    <option value="Waterproofing solutions" {{ request('category') == 'Waterproofing solutions' ? 'selected' : '' }}>Waterproofing solutions</option>
+                </select>
 
-                <!-- Search Input -->
                 <div class="flex-1 min-w-xs">
                     <flux:input name="search" placeholder="Search products..." />
                 </div>
 
-                <!-- Search Button -->
-                <div>
-                    <flux:button icon="magnifying-glass" type="submit" variant="primary">
-                        <span class="hidden sm:inline">Search</span>
-                    </flux:button>
-                </div>
-
+                <flux:button icon="magnifying-glass" type="submit" variant="primary">
+                    Search
+                </flux:button>
             </form>
         </div>
 
-            </div>
-
-         <!-- Inventory Table -->
-       
-            <div class="p-2">
-              <div class="overflow-x-auto max-w-max bg-white dark:bg-zinc-800 rounded shadow">
-                    <table class="w-full text-sm text-center table-auto">
-                        <thead class="bg-zinc-200 dark:bg-zinc-700">
-                            <tr class="text-gray-700 dark:text-white uppercase">
-                                <th class="px-4 py-2 text-left text-sm font-medium">#</th>
-                                <th class="px-4 py-2 text-left text-sm font-medium">Product Code</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium">Product Name</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium">Category</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium">Color</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium">Litre</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium">Pail Quantity</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium">Notes</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 dark:divide-zinc-700">
-                            @foreach ($inventory as $index => $inventory)
-                            <tr class="hover:bg-gray-50 dark:hover:bg-zinc-700">
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $index + 1 }}</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $inventory->productCode }}</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $inventory->productName }}</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $inventory->category }}</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $inventory->color }}</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $inventory->litre }}</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $inventory->pail_quantity }}</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">{{ $inventory->notes }}</td>
-                                <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 flex items-center justify-center gap-2">
-                                   
-                             <!-- Edit Button with update product form -->
-                                    <flux:modal.trigger name="edit-stock">
-                                        <flux:button icon="pencil" variant="primary" size="xs" square tooltip="Edit" />
-                                    </flux:modal.trigger>
-
-                                    <flux:modal name="edit-stock">
-                                        <form action="{{ route('inventory.update', $inventory->id) }}" method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="space-y-4 p-4">
-                                                <h3 class="text-lg font-semibold text-white">Edit Product</h3><br>
-
-                                                <div>
-                                                    <label class="block text-sm font-medium  dark:text-white text-gray-700 mb-2 mt-3">Product Name</label>
-                                                    <flux:input type="text" name="productName" value="{{ $inventory->productName }}" />
-                                                </div>
-
-                                                <div>
-                                                   <flux:select name="category" label="Category">
-                                                    <option value="Exterior" {{ $inventory->category == 'Exterior' ? 'selected' : '' }}>Exterior</option>
-                                                    <option value="Interior" {{ $inventory->category == 'Interior' ? 'selected' : '' }}>Interior</option>
-                                                    <option value="Glomel" {{ $inventory->category == 'Glomel' ? 'selected' : '' }}>Glomel</option>
-                                                    <option value="Protective coatings" {{ $inventory->category == 'Protective coatings' ? 'selected' : '' }}>Protective coatings</option>
-                                                    <option value="Sports, courts, coatings" {{ $inventory->category == 'Sports, courts, coatings' ? 'selected' : '' }}>Sports, courts, coatings</option>
-                                                    <option value="Waterproofing solutions" {{ $inventory->category == 'Waterproofing solutions' ? 'selected' : '' }}>Waterproofing solutions</option>
-                                                </flux:select>
-                                                </div>
-                                                <div>
-                                                    <label class="block text-sm font-medium  dark:text-white text-gray-700 mb-2 mt-3">Color</label>
-                                                    <flux:input type="text" name="color" value="{{ $inventory->color }}" />
-                                                </div>
-                                                <div>
-                                                    <label class="block text-sm font-medium  dark:text-white text-gray-700 mb-2 mt-3">Litre Size</label>
-                                                    <flux:input type="number" min="0.5" step="0.5" name="litre" value="{{ $inventory->litre }}" />
-                                                </div>
-                                                <div>
-                                                    <label class="block text-sm font-medium  dark:text-white text-gray-700 mb-2 mt-3">Pail Quantity</label>
-                                                    <flux:input type="number" min="1" name="pail_quantity" value="{{ $inventory->pail_quantity }}" />
-                                                </div>
-                                                <div>
-                                                    <label class="block text-sm font-medium  dark:text-white text-gray-700 mb-2 mt-3">Notes</label>
-                                                    <flux:input type="text" name="notes" value="{{ $inventory->notes }}" />
-                                                </div>
-
-                                                <div class="text-right pt-2 mb-2">
-                                                    <flux:button type="submit" variant="primary">Update Product</flux:button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </flux:modal>
-                                    
-                                    <form action="{{ route('inventory.destroy', $inventory->id) }}" method="POST" class="inline">
+        <!-- Inventory Table -->
+        <div class="overflow-x-auto rounded-lg shadow">
+            <table class="w-full text-sm divide-y divide-gray-200">
+                <thead class=" text-gray-700">
+                    <tr style="background-color: #e8e9e9;">
+                        <th class="px-4 py-3 text-left font-semibold">#</th>
+                        <th class="px-4 py-3 text-left font-semibold">Product Code</th>
+                        <th class="px-4 py-3 text-left font-semibold">Product Name</th>
+                        <th class="px-4 py-3 text-left font-semibold">Category</th>
+                        <th class="px-4 py-3 text-left font-semibold">Color</th>
+                        <th class="px-4 py-3 text-left font-semibold">Litre</th>
+                        <th class="px-4 py-3 text-left font-semibold">Pail Quantity</th>
+                        <th class="px-4 py-3 text-left font-semibold">Notes</th>
+                        <th class="px-4 py-3 text-center font-semibold">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-100">
+                    @foreach ($inventory as $index => $item)
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-gray-700">{{ $index + 1 }}</td>
+                        <td class="px-4 py-3 text-gray-700">{{ $item->productCode }}</td>
+                        <td class="px-4 py-3 text-gray-700">{{ $item->productName }}</td>
+                        <td class="px-4 py-3 text-gray-700">{{ $item->category }}</td>
+                        <td class="px-4 py-3 text-gray-700">{{ $item->color }}</td>
+                        <td class="px-4 py-3 text-gray-700">{{ $item->litre }}</td>
+                        <td class="px-4 py-3 text-gray-700">{{ $item->pail_quantity }}</td>
+                        <td class="px-4 py-3 text-gray-600">{{ $item->notes }}</td>
+                        <td class="px-4 py-3 text-center">
+                            <div class="flex justify-center gap-2">
+                                <flux:modal.trigger name="edit-stock-{{ $item->id }}">
+                                    <flux:button icon="pencil" variant="primary" size="xs" square tooltip="Edit" />
+                                </flux:modal.trigger>
+                                <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <flux:button type="submit" icon="trash" variant="danger" size="xs" square tooltip="Delete" />
-                                    </form>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+        <!-- Modern Add Product Modal -->
+<flux:modal name="add-product" class="rounded-2xl shadow-xl bg-white">
+    <div class="p-6 space-y-6">
+        <h3 class="text-2xl font-semibold text-gray-800">Add New Product</h3>
+        <p class="text-sm text-gray-500">Fill in the product details below.</p>
+        <form action="{{ route('inventory.store') }}" method="POST" class="space-y-4">
+            @csrf
+            @method('POST')
 
+            <flux:input name="productCode" label="Product Code" placeholder="e.g., 12345" />
+            <flux:input name="productName" label="Product Name" placeholder="e.g., Super Gloss Paint" />
+            <flux:input name="pail_quantity" label="Pail Quantity" type="number" min="1" placeholder="e.g., 50" />
+
+            <flux:select name="category" label="Category">
+                <option value="" disabled selected>Select category</option>
+                <option value="Interior">Interior</option>
+                <option value="Exterior">Exterior</option>
+                <option value="Glomel">Glomel</option>
+                <option value="Protective coatings">Protective coatings</option>
+                <option value="Sports, courts, coatings">Sports, courts, coatings</option>
+                <option value="Waterproofing solutions">Waterproofing solutions</option>
+            </flux:select>
+
+            <flux:input name="color" label="Color" placeholder="e.g., Blue" />
+            <flux:input name="litre" label="Litre Size" type="number" step="0.5" placeholder="e.g., 5" />
+            <flux:input name="notes" label="Notes" placeholder="Optional notes..." />
+
+            <div class="mt-6 flex justify-end gap-2">
+                <flux:button as="button" type="button" variant="subtle" onclick="$modal.close()">Cancel</flux:button>
+                <flux:button type="submit" variant="primary">Add Product</flux:button>
             </div>
-          
-            <br class="line-separator ">
-           
-            
-                </div>
+        </form>
+    </div>
+</flux:modal>
+
+<!-- Modern Update Stock Modal -->
+<flux:modal name="update-stock" class="rounded-2xl shadow-xl bg-white">
+    <div class="p-6 space-y-6">
+        <h3 class="text-2xl font-semibold text-gray-800">Update Stock</h3>
+        <p class="text-sm text-gray-500">Search and update the stock for a product.</p>
+        <form action="{{ route('inventory.updateStock') }}" method="POST" class="space-y-4" x-data="productSearch()">
+            @csrf
+
+            <flux:input name="search" label="Search Product" x-model="query" @input="filterStocks" placeholder="Type product name or code..." />
+            <flux:select name="entry_type" label="Entry Type">
+                <option value="in">Stock In</option>
+                <option value="out">Stock Out</option>
+            </flux:select>
+            <flux:input name="quantity" label="Quantity" type="number" min="1" placeholder="e.g., 10" />
+            <flux:input name="entry_date" label="Date" type="datetime-local" />
+            <flux:input name="note" label="Note" placeholder="Optional note..." />
+
+            <div class="mt-6 flex justify-end gap-2">
+                <flux:button as="button" type="button" variant="subtle" onclick="$modal.close()">Cancel</flux:button>
+                <flux:button type="submit" variant="primary">Submit Update</flux:button>
+            </div>
+        </form>
+    </div>
+</flux:modal>
+
     </div>
 </x-layouts.app>
-

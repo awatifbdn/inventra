@@ -16,6 +16,7 @@
     <div class="p-6 space-y-6">
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <h2 class="text-2xl font-bold text-zinc-800">📦 Orders Management</h2>
             <div class="flex gap-2">
@@ -24,12 +25,17 @@
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         <!-- Header with Date Filter and Search -->
         <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
             <div>
                 <h2 class="text-2xl font-bold text-zinc-800 dark:text-white">Orders</h2>
                 <p class="text-sm text-zinc-500 dark:text-zinc-400">Manage your latest customer orders</p>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -47,6 +53,7 @@
             </form>
         </div>
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
         <!-- Filter/Search Bar -->
@@ -94,6 +101,8 @@
                 <thead class="bg-zinc-100 text-zinc-700">
                     <tr style="background-color: #e8e9e9;">
 =======
+=======
+>>>>>>> Stashed changes
         <!-- Summary Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <a href="{{ route('admin.orders.index', ['status' => '']) }}" class="block rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-4 hover:shadow transition">
@@ -140,6 +149,7 @@
                 </thead>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($orders as $index => $order)
                         <tr>
@@ -147,6 +157,12 @@
                             <td class="px-4 py-3 font-medium">
                                 <a href="{{ route('admin.orders.show', $order->id) }}" class="text-blue-600 hover:underline">
                                     {{ $order->order_id }}</a></td>
+=======
+                <tbody class="bg-white dark:bg-zinc-900 divide-y divide-zinc-200 dark:divide-zinc-700">
+                    @forelse($orders as $index => $order)
+                        <tr>
+                            <td class="px-4 py-3 font-medium text-zinc-700 dark:text-white">{{ $orders->firstItem() + $index }}</td>
+>>>>>>> Stashed changes
 =======
                 <tbody class="bg-white dark:bg-zinc-900 divide-y divide-zinc-200 dark:divide-zinc-700">
                     @forelse($orders as $index => $order)
@@ -167,7 +183,11 @@
                                     @foreach ($order->items as $item)
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                                         <li class="text-xs text-zinc-700">
+=======
+                                        <li>
+>>>>>>> Stashed changes
 =======
                                         <li>
 >>>>>>> Stashed changes
@@ -187,8 +207,14 @@
                                     @method('PUT')
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                                     <select name="status" onchange="this.form.submit()" class="rounded px-2 py-1 bg-white border border-gray-300 text-sm">
                                         <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>🕓 Pending</option>
+=======
+                                    <select name="status" onchange="this.form.submit()"
+                                        class="px-2 py-1 border border-zinc-300 dark:border-zinc-600 rounded bg-white dark:bg-zinc-700 text-sm">
+                                        <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>⏳ Pending</option>
+>>>>>>> Stashed changes
 =======
                                     <select name="status" onchange="this.form.submit()"
                                         class="px-2 py-1 border border-zinc-300 dark:border-zinc-600 rounded bg-white dark:bg-zinc-700 text-sm">

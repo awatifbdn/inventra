@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderPlaced;
 use App\Mail\OrderReceiptCustomer;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
 
@@ -75,7 +76,7 @@ public function detailCustomer()
 public function showConfirmation(Request $request)
 {
     $cartItems = Session::get('cart', []);
-    $customer = $request->only(['name', 'email', 'address']);
+    $customer = $request->only(['name', 'phone', 'email', 'address']);
 
     if (empty($cartItems)) {
         return redirect()->route('catalog.index')->with('error', 'Your cart is empty.');
@@ -89,6 +90,7 @@ public function checkout(Request $request)
 {
     $data = $request->validate([
         'name'    => 'required|string|max:255',
+        'phone'   => 'required|string|max:15',
         'email'   => 'required|email',
         'address' => 'required|string|max:500',
     ]);
@@ -99,35 +101,32 @@ public function checkout(Request $request)
     }
 
     $totalPrice = collect($cartItems)->sum(function ($item) {
-    return $item['litre']['price'] * ($item['quantity'] ?? 1);
-});
+        return $item['litre']['price'] * ($item['quantity'] ?? 1);
+    });
 
+    $orderId = '#FEORD' . now()->format('Ymd') . strtoupper(Str::random(3));
 
-   $order = Order::create([
-    'customer_name'    => $data['name'],
-    'customer_email'   => $data['email'],
-    'customer_address' => $data['address'],
-    'items'            => $cartItems,
-    'total_price'      => $totalPrice,
-]);
+    $order = Order::create([
+        'order_id'         => $orderId,
+        'customer_name'    => $data['name'],
+        'customer_phone'   => $data['phone'],
+        'customer_email'   => $data['email'],
+        'customer_address' => $data['address'],
+        'items'            => $cartItems,
+        'total_price'      => $totalPrice,
+    ]);
 
-        // Update the order with the cart items
-        $order = Order::find($order->id);
-
-        // Send mail
-        Mail::to($data['email'])->send(new OrderReceiptCustomer($order));
-        Mail::to('admin@example.com')->send(new OrderPlaced($order));
-
-
+    Mail::to($data['email'])->send(new OrderReceiptCustomer($order));
+    Mail::to('admin@example.com')->send(new OrderPlaced($order));
 
     Session::forget('cart');
 
     return view('catalog.order.success', [
-    'order' => $order,
-    'cartItems' => $cartItems
-]);
-
+        'order' => $order,
+        'cartItems' => $cartItems
+    ]);
 }
+
 
     public function removeItem($index)
     {

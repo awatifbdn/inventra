@@ -62,6 +62,11 @@
                     </div>
 
                     <div>
+                        <label class="block text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="text" name="phone" placeholder="Your phone number" class="w-full border px-3 py-2 rounded">
+                    </div>
+
+                    <div>
                         <label class="block text-sm font-medium text-gray-700">Email Address</label>
                         <input type="email" name="email" placeholder="you@example.com" required class="w-full border px-3 py-2 rounded">
                     </div>

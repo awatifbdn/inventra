@@ -93,4 +93,11 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/orders/export/pdf', [AdminOrderController::class, 'exportPdf'])->name('admin.orders.export.pdf');
 });
 
+// Let admin display customer and order details
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('orders', AdminOrderController::class)->except(['create', 'edit']);
+    Route::get('orders/{order}/receipt', [AdminOrderController::class, 'generateReceipt'])->name('orders.receipt');
+});
+
+
 

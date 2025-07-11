@@ -1,7 +1,7 @@
 <x-layouts.app :title="__('Orders')">
     <div class="p-6 space-y-6">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <h2 class="text-2xl font-bold text-zinc-800 dark:text-white">📦 Orders Management</h2>
+            <h2 class="text-2xl font-bold text-zinc-800">📦 Orders Management</h2>
             <div class="flex gap-2">
                 <a href="{{ route('admin.orders.export.csv') }}" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition">Export CSV</a>
                 <a href="{{ route('admin.orders.export.pdf') }}" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 transition">Export PDF</a>
@@ -10,8 +10,8 @@
 
         <!-- Filter/Search Bar -->
         <form method="GET" action="{{ route('admin.orders.index') }}" class="flex flex-wrap items-center gap-4">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search customer/email" class="px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded w-full sm:w-64 bg-white dark:bg-zinc-700">
-            <select name="status" onchange="this.form.submit()" class="px-3 py-2 border border-gray-300 dark:border-zinc-600 rounded bg-white dark:bg-zinc-700">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search customer/email" class="px-3 py-2 border border-gray-300 rounded w-full sm:w-64 bg-white">
+            <select name="status" onchange="this.form.submit()" class="px-3 py-2 border border-gray-300 rounded bg-white">
                 <option value="">All Status</option>
                 <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
                 <option value="paid" {{ request('status') === 'paid' ? 'selected' : '' }}>Paid</option>
@@ -21,11 +21,12 @@
         </form>
 
         <!-- Orders Table -->
-        <div class="overflow-x-auto rounded-xl shadow border border-zinc-200 dark:border-zinc-700">
-            <table class="min-w-full text-sm text-left divide-y divide-gray-200 dark:divide-zinc-700">
-                <thead class="bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
-                    <tr>
+        <div class="overflow-x-auto rounded-xl shadow border border-zinc-200">
+            <table class="min-w-full text-sm text-left divide-y divide-gray-200">
+                <thead class="bg-zinc-100 text-zinc-700">
+                    <tr style="background-color: #e8e9e9;">
                         <th class="px-4 py-3">#</th>
+                        <th class="px-4 py-3">Order ID</th>
                         <th class="px-4 py-3">Customer</th>
                         <th class="px-4 py-3">Email</th>
                         <th class="px-4 py-3">Phone</th>
@@ -36,17 +37,20 @@
                         <th class="px-4 py-3 text-center">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-zinc-900 divide-y divide-gray-200 dark:divide-zinc-700">
+                <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($orders as $index => $order)
                         <tr>
                             <td class="px-4 py-3 font-medium">{{ $orders->firstItem() + $index }}</td>
+                            <td class="px-4 py-3 font-medium">
+                                <a href="{{ route('admin.orders.show', $order->id) }}" class="text-blue-600 hover:underline">
+                                    {{ $order->order_id }}</a></td>
                             <td class="px-4 py-3">{{ $order->customer_name }}</td>
                             <td class="px-4 py-3">{{ $order->customer_email }}</td>
                             <td class="px-4 py-3">{{ $order->customer_phone ?? '-' }}</td>
                             <td class="px-4 py-3">
                                 <ul class="pl-4 list-disc space-y-1">
                                     @foreach ($order->items as $item)
-                                        <li class="text-xs text-zinc-700 dark:text-zinc-300">
+                                        <li class="text-xs text-zinc-700">
                                             {{ $item['product']['productName'] }} - {{ $item['color']['color_name'] }} ({{ $item['litre']['litre'] }}L) x{{ $item['quantity'] ?? 1 }}
                                         </li>
                                     @endforeach
@@ -58,7 +62,7 @@
                                 <form method="POST" action="{{ route('admin.orders.updateStatus', $order->id) }}">
                                     @csrf
                                     @method('PUT')
-                                    <select name="status" onchange="this.form.submit()" class="rounded px-2 py-1 bg-white dark:bg-zinc-700 border border-gray-300 text-sm">
+                                    <select name="status" onchange="this.form.submit()" class="rounded px-2 py-1 bg-white border border-gray-300 text-sm">
                                         <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>🕓 Pending</option>
                                         <option value="paid" {{ $order->status === 'paid' ? 'selected' : '' }}>💰 Paid</option>
                                         <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>✅ Completed</option>
@@ -76,7 +80,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="px-4 py-6 text-center text-zinc-500 dark:text-zinc-400">No orders found.</td>
+                            <td colspan="9" class="px-4 py-6 text-center text-zinc-500">No orders found.</td>
                         </tr>
                     @endforelse
                 </tbody>

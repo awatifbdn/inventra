@@ -11,34 +11,37 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class AdminOrderController extends Controller
 {
   public function index(Request $request)
-{
-    $query = Order::query();
-
-    // Optional filter by status
-    if ($request->filled('status')) {
-        $query->where('status', $request->status);
-    }
-
-    // Optional search by customer name or email
-    if ($request->filled('search')) {
-        $query->where(function ($q) use ($request) {
-            $q->where('customer_name', 'like', '%' . $request->search . '%')
-              ->orWhere('customer_email', 'like', '%' . $request->search . '%');
-        });
-    }
-
-    // Paginate with 10 results per page
-    $orders = $query->latest()->paginate(10)->withQueryString();
-
-    return view('admin.orders.index', compact('orders'));
-}
-
-
-
-    public function show(Order $order)
     {
+        $query = Order::query();
+
+        // Optional filter by status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Optional search by customer name or email
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('customer_name', 'like', '%' . $request->search . '%')
+                ->orWhere('customer_email', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Paginate with 10 results per page
+        $orders = $query->latest()->paginate(10)->withQueryString();
+
+        return view('admin.orders.index', compact('orders'));
+    }
+
+
+
+    public function show($id)
+    {
+        $order = Order::findOrFail($id);
+
         return view('admin.orders.show', compact('order'));
     }
+
 
     public function updateStatus(Request $request, Order $order)
     {
@@ -89,5 +92,14 @@ class AdminOrderController extends Controller
         $pdf = Pdf::loadView('admin.orders.export_pdf', compact('orders'));
         return $pdf->download('orders.pdf');
     }
+
+    public function generateReceipt($id)
+    {
+        $order = Order::findOrFail($id);
+
+        $pdf = Pdf::loadView('admin.orders.receipt', compact('order'));
+        return $pdf->download('Receipt_' . $order->order_id . '.pdf');
+    }
+
 }
 

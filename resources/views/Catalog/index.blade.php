@@ -3,9 +3,6 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4 py-8">
     
-
-       <!-- 📸 Hero Carousel -->
-       <!-- 🎨 Auto-Sliding Image Carousel -->
         <div 
             x-data="{
                 activeSlide: 0,

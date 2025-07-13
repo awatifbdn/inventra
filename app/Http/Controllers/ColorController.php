@@ -1,77 +1,126 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Product;
 use App\Models\Color;
 use App\Models\ColorLitre;
-
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ColorController extends Controller
 {
     public function index(Product $product)
-{
-    // Assuming relationship: $product->colors()->with('litres')
-    $colors = $product->colors()->with('litres')->get();
-
-    return view('colors.index', compact('product', 'colors'));
-}
-    public function create()
     {
-    // Show form to create a new color for a product
-        return view('colors.create');
+        // Load all colors with litres for a specific product
+        $colors = $product->colors()->with('litres')->get();
+
+        return view('colors.index', compact('product', 'colors'));
     }
-public function store(Request $request, $productId)
+
+    public function store(Request $request, Product $product)
+    {
+        $validated = $request->validate([
+            'color_name' => 'required|string|max:255',
+            'color_code' => 'required|string|max:7',
+            'color_pallet' => 'nullable|image',
+            'litres' => 'required|array',
+            'litres.*' => 'required|numeric|min:0.01',
+            'prices' => 'required|array',
+            'prices.*' => 'required|numeric|min:0',
+        ]);
+
+        $palletPath = null;
+        if ($request->hasFile('color_pallet')) {
+            $palletPath = $request->file('color_pallet')->store('color_pallets', 'public');
+        }
+
+        $color = $product->colors()->create([
+            'color_name' => $validated['color_name'],
+            'color_code' => $validated['color_code'],
+            'color_pallet' => $palletPath,
+        ]);
+
+        foreach ($validated['litres'] as $index => $litre) {
+            $color->litres()->create([
+                'litre' => $litre,
+                'price' => $validated['prices'][$index],
+            ]);
+        }
+
+        return redirect()->route('colors.index', $product->id)
+            ->with('success', 'Color and litres added successfully.');
+    }
+
+    public function edit(Product $product, Color $color)
+    {
+        $color->load('litres');
+        return view('colors.edit', compact('product', 'color'));
+    }
+
+   public function update(Request $request, Product $product, Color $color)
 {
-  
-    // Validate the base color info
     $validated = $request->validate([
         'color_name' => 'required|string|max:255',
         'color_code' => 'required|string|max:7',
         'color_pallet' => 'nullable|image',
-        'litres' => 'required|array',
-        'litres.*' => 'required|numeric|min:0.01',
-        'prices' => 'required|array',
-        'prices.*' => 'required|numeric|min:0',
+        'sizes_json' => 'required|string', // JSON encoded sizes
     ]);
 
-    // Handle image upload (optional)
-    $palletPath = null;
+    // Update basic fields
+    $color->color_name = $validated['color_name'];
+    $color->color_code = $validated['color_code'];
+
+    // Handle new image upload
     if ($request->hasFile('color_pallet')) {
-        $palletPath = $request->file('color_pallet')->store('color_pallets', 'public');
+        if ($color->color_pallet && Storage::disk('public')->exists($color->color_pallet)) {
+            Storage::disk('public')->delete($color->color_pallet);
+        }
+        $color->color_pallet = $request->file('color_pallet')->store('color_pallets', 'public');
+    }
+    $color->save();
+
+    // Update litres
+    $sizes = json_decode($validated['sizes_json'], true);
+    $color->litres()->delete();
+    foreach ($sizes as $size) {
+        $color->litres()->create([
+            'litre' => $size['litre'],
+            'price' => $size['price'],
+        ]);
     }
 
-    // Create Color
-    $color = Color::create([
-        'color_name' => $validated['color_name'],
-        'color_code' => $validated['color_code'],
-        'color_pallet' => $palletPath,
-        'product_id' => $productId,
-
-    ]);
-
-    
-foreach ($validated['litres'] as $index => $litre) {
-    $price = $validated['prices'][$index];
-    $color->litres()->create([
-        'litre' => $litre,
-        'price' => $price,
-    ]);
-}
-  
-
-   return redirect()->route('colors.index', ['product' => $color->product_id])
-                 ->with('success', 'Color and litres added successfully.');
-
-
+    return redirect()->route('colors.index', ['product' => $product->id])
+        ->with('success', 'Color updated successfully.');
 }
 
-  public function bulkDelete(Request $request, Product $product)
+
+    public function destroy(Product $product, Color $color)
+    {
+        if ($color->color_pallet && Storage::disk('public')->exists($color->color_pallet)) {
+            Storage::disk('public')->delete($color->color_pallet);
+        }
+
+        $color->litres()->delete();
+        $color->delete();
+
+        return redirect()->route('colors.index', $product->id)
+            ->with('success', 'Color deleted successfully.');
+    }
+
+    public function bulkDelete(Request $request, Product $product)
     {
         $ids = explode(',', $request->input('ids'));
 
-        Color::whereIn('id', $ids)->where('product_id', $product->id)->delete();
+        $colors = $product->colors()->whereIn('id', $ids)->get();
+
+        foreach ($colors as $color) {
+            if ($color->color_pallet && Storage::disk('public')->exists($color->color_pallet)) {
+                Storage::disk('public')->delete($color->color_pallet);
+            }
+            $color->litres()->delete();
+            $color->delete();
+        }
 
         return back()->with('success', 'Selected colors deleted.');
     }
@@ -81,9 +130,11 @@ foreach ($validated['litres'] as $index => $litre) {
         $ids = explode(',', $request->input('ids'));
         $price = $request->input('price');
 
-        Color::whereIn('id', $ids)->where('product_id', $product->id)->update(['price' => $price]);
+        foreach (ColorLitre::whereIn('color_id', $ids)->get() as $litre) {
+            $litre->price = $price;
+            $litre->save();
+        }
 
-        return back()->with('success', 'Price updated.');
+        return back()->with('success', 'Prices adjusted successfully.');
     }
-
 }

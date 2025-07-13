@@ -1,10 +1,10 @@
 <x-layouts.app :title="__('Add_Product')">
     <div class="flex flex-row gap-4 w-full">
         <!-- Add Form -->
-        <div class="flex-1 flex flex-col gap-6 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6 bg-white dark:bg-zinc-800 shadow-sm">
+        <div class="flex-1 flex flex-col gap-6 rounded-xl border border-neutral-200 p-6 bg-white shadow-sm">
             <div>
-                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Add New Product</h2>
-                <p class="text-sm text-gray-500 dark:text-gray-300">Fill in the product details below.</p>
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">Add New Product</h2>
+                <p class="text-sm text-gray-500">Fill in the product details below.</p>
             </div>
 
             <form action="{{ route('products.store') }}"  method="POST" enctype="multipart/form-data" class="space-y-6" id="productForm">
@@ -26,59 +26,58 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <flux:input label="Min Price" name="min_price"  type="number" min="0" step="0.01" oninput="updatePreview()" />
-                    <flux:input label="Max Price" name="max_price"  type="number" min="0" step="0.01" oninput="updatePreview()" />
+                    <flux:input label="Min Price" name="min_price" type="number" min="0" step="0.01" oninput="updatePreview()" />
+                    <flux:input label="Max Price" name="max_price" type="number" min="0" step="0.01" oninput="updatePreview()" />
                     <flux:input label="size" name="sizes" type="text" required oninput="updatePreview()" />
                 </div>
 
                 <flux:textarea label="Description" name="description" rows="4" oninput="updatePreview()" />
 
-                <!-- Styled File Upload.. -->
+                <!-- Styled File Upload -->
                 <div class="space-y-2">
-                    <label for="image_url" class="block text-sm font-medium text-gray-700 dark:text-white">Product Images</label>
-                    <input 
+                    <label for="image_url" class="block text-sm font-medium text-gray-700">Product Images</label>
+                    <flux:input 
                         type="file" 
-                        name="image_url[]"  multiple
+                        wire:model="attachments"
+                        name="image_url[]" multiple
                         id="image_url" 
                         accept="image/*" 
-                        multiple
                         onchange="previewMultipleImages()"
-                        class="w-full rounded-lg border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 px-4 py-2 text-sm text-gray-700 dark:text-white shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition"
+                        class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition"
                     />
                 </div>
-               <div id="colorFields" class="space-y-4"></div>
-
+                <div id="colorFields" class="space-y-4"></div>
 
                 <div class="flex justify-end gap-3 pt-4">
                     <flux:button as="a" href="{{ route('products.index') }}" variant="filled">Cancel</flux:button>
-                    <flux:button type="submit" variant="primary" >Save Product</flux:button>
+                    <flux:button type="submit" variant="primary">Save Product</flux:button>
                 </div>
             </form>
         </div>
 
         <!-- Preview -->
-        <div class="flex-1 flex flex-col gap-6 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6 bg-white dark:bg-zinc-800 shadow-sm">
+        <div class="flex-1 flex flex-col gap-6 rounded-xl border border-neutral-200 p-6 bg-white shadow-sm">
             <div>
-                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Live Preview</h2>
-                <p class="text-sm text-gray-500 dark:text-gray-300">Your product preview updates live.</p>
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">Live Preview</h2>
+                <p class="text-sm text-gray-500">Your product preview updates live.</p>
             </div>
 
             <!-- Image Preview -->
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Image Preview</label>
-                <div id="imagePreviewContainer" class="flex flex-wrap gap-2 max-h-40 overflow-y-auto p-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-zinc-700"></div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Image Preview</label>
+                <div id="imagePreviewContainer" class="flex flex-wrap gap-2 max-h-40 overflow-y-auto p-2 border border-gray-200 rounded-lg bg-gray-50"></div>
             </div>
 
             <!-- Textual Preview -->
-            <div class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-                <p><strong>Name:</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewName">-</span></p>
-                <p><strong>Category:</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewCategory">-</span></p>
-                <p><strong>Size:</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewSize">-</span></p>
-                <p><strong>Minimum Price (RM):</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewMinPrice">-</span></p>
-                <p><strong>Maximum Price (RM):</strong> <span class="text-blue-800 dark:text-yellow-200" id="previewMaxPrice">-</span></p>
+            <div class="space-y-2 text-sm text-gray-700">
+                <p><strong>Name:</strong> <span class="text-blue-800" id="previewName">-</span></p>
+                <p><strong>Category:</strong> <span class="text-blue-800" id="previewCategory">-</span></p>
+                <p><strong>Size:</strong> <span class="text-blue-800" id="previewSize">-</span></p>
+                <p><strong>Minimum Price (RM):</strong> <span class="text-blue-800" id="previewMinPrice">-</span></p>
+                <p><strong>Maximum Price (RM):</strong> <span class="text-blue-800" id="previewMaxPrice">-</span></p>
                 <div>
                     <p><strong>Description:</strong></p>
-                    <p id="previewDesc" class="text-green-800 dark:text-yellow-200 italic">-</p>
+                    <p id="previewDesc" class="text-green-800 italic">-</p>
                 </div>
             </div>
         </div>
@@ -105,7 +104,7 @@
                     reader.onload = function (e) {
                         const img = document.createElement('img');
                         img.src = e.target.result;
-                        img.className = 'w-15 h-15 object-cover rounded border border-gray-300 dark:border-gray-600';
+                        img.className = 'w-15 h-15 object-cover rounded border border-gray-300';
                         img.alt = 'Product Image';
                         imageContainer.appendChild(img);
                     };

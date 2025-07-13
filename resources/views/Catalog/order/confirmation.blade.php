@@ -22,6 +22,9 @@
             <span class="text-3xl">✅</span>
             <h2 class="text-2xl font-bold text-blue-800">Confirm Your Order</h2>
         </div>
+            <p>Pending Order ID: <strong>{{ $order->order_id ?? 'Will be generated upon checkout' }}</strong></p>
+            <p class="text-gray-600">Please review your order details before proceeding to payment</p>
+           
 
         <!-- Order Summary -->
         <div>
@@ -64,6 +67,7 @@
             <h3 class="text-xl font-semibold text-gray-700 mb-3">👤 Customer Information</h3>
             <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg space-y-1">
                 <p><strong>👨‍💼 Name:</strong> {{ $customer['name'] }}</p>
+                <p><strong>📞 Phone:</strong> {{ $customer['phone'] }}</p>
                 <p><strong>📧 Email:</strong> {{ $customer['email'] }}</p>
                 <p><strong>🏠 Address:</strong> {{ $customer['address'] }}</p>
             </div>
@@ -84,6 +88,7 @@
         <form action="{{ route('order.checkout') }}" method="POST" class="text-right">
             @csrf
             <input type="hidden" name="name" value="{{ $customer['name'] }}">
+            <input type="hidden" name="phone" value="{{ $customer['phone'] }}">
             <input type="hidden" name="email" value="{{ $customer['email'] }}">
             <input type="hidden" name="address" value="{{ $customer['address'] }}">
 

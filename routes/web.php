@@ -42,6 +42,8 @@ require __DIR__.'/auth.php';
 
 // Product routes using resource controller, excluding 'show' since it's not used..
 Route::resource('products', ProductController::class)->except(['show']);
+Route::put('/products/{product}/update-table', [ProductController::class, 'updateTable'])->name('products.updateTable');
+
 
 
 
@@ -54,15 +56,23 @@ Route::delete('/inventory/{inventory}', [InventoryController::class, 'destroy'])
 Route::get('/inventory/history', [InventoryController::class, 'history'])->name('inventory.history');
 Route::post('/inventory/update-stock', [InventoryController::class, 'updateStock'])->name('inventory.updateStock');
 Route::get('/inventory/search', [InventoryController::class, 'search'])->name('inventory.search');
+Route::put('/inventory/{inventory}', [InventoryController::class, 'update'])->name('inventory.update');
+Route::get('/inventory/live-search', [InventoryController::class, 'liveSearch'])->name('inventory.liveSearch');
+
 
 
 // Color routes for a specific product
 Route::prefix('products/{product}')->group(function () {
     Route::get('colors', [ColorController::class, 'index'])->name('colors.index');
     Route::post('colors', [ColorController::class, 'store'])->name('colors.store');
+    Route::get('colors/{color}/edit', [ColorController::class, 'edit'])->name('colors.edit');
+    Route::put('colors/{color}', [ColorController::class, 'update'])->name('colors.update');
+    Route::delete('colors/{color}', [ColorController::class, 'destroy'])->name('colors.destroy');
     Route::delete('colors/bulk-delete', [ColorController::class, 'bulkDelete'])->name('colors.bulkDelete');
     Route::post('colors/adjust-price', [ColorController::class, 'adjustPrice'])->name('colors.adjustPrice');
 });
+
+
 
 //Catalog routes
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
@@ -91,6 +101,18 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::delete('/orders/{order}', [AdminOrderController::class, 'destroy'])->name('admin.orders.destroy');
     Route::get('/orders/export/csv', [AdminOrderController::class, 'exportCsv'])->name('admin.orders.export.csv');
     Route::get('/orders/export/pdf', [AdminOrderController::class, 'exportPdf'])->name('admin.orders.export.pdf');
+
 });
+
+Route::get('/admin/orders/tab/{tab}', [AdminOrderController::class, 'tab'])->name('admin.orders.tab');
+
+
+// Let admin display customer and order details
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('orders', AdminOrderController::class)->except(['create', 'edit']);
+    Route::get('orders/{order}/receipt', [AdminOrderController::class, 'generateReceipt'])->name('orders.receipt');
+});
+
+
 
 

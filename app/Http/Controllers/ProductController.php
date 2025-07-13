@@ -94,6 +94,32 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
 
+     public function updateTable(Request $request, Product $product)
+    {
+        $validated = $request->validate([
+            'productName'    => 'required|string|max:255',
+            'category'       => 'required|string|max:255',
+            'sizes'           => 'required|string|max:255',
+            'min_price'      => 'required|numeric|min:0',
+            'max_price'      => 'required|numeric|min:0',
+            'description'    => 'nullable|string',
+            'image_url.*'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Optional: replace images if new ones are uploaded
+        if ($request->hasFile('image_url')) {
+            $imagePaths = [];
+            foreach ($request->file('image_url') as $image) {
+                $imagePaths[] = $image->store('products', 'public');
+            }
+            $validated['image_url'] = json_encode($imagePaths);
+        }
+
+        $product->update($validated);
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
+    }
+
     public function destroy($id)
         {
             $product = Product::findOrFail($id);

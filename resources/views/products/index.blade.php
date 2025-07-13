@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="{{ session('theme', 'light') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -132,56 +132,16 @@
                                 <flux:button icon="eye" variant="subtle" size="xs" square tooltip="View" />
                             </flux:modal.trigger>
                         </td>
-                    </tr>
-
-                    <!-- Edit product for table view -->
-                    <flux:modal name="edit-product-{{ $product->id }}" class="w-full max-w-5xl">
-                        <div class="space-y-6 p-4 text-sm text-gray-700">
-                            <flux:heading size="lg"><b>Update Product<b></flux:heading>
-
-                            <flux:text class="">Make changes to the product details below.</flux:text>
-                            <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                                <flux:input name="productName" value="{{ $product->productName }}" label="Product Name" />
-                                <flux:select name="category" label="Category">
-                                    <option value="Exterior" {{ $product->category == 'Exterior' ? 'selected' : '' }}>Exterior</option>
-                                    <option value="Interior" {{ $product->category == 'Interior' ? 'selected' : '' }}>Interior</option>
-                                    <option value="Glomel" {{ $product->category == 'Glomel' ? 'selected' : '' }}>Glomel</option>
-                                    <option value="Protective coatings" {{ $product->category == 'Protective coatings' ? 'selected' : '' }}>Protective coatings</option>
-                                    <option value="Sports, courts, coatings" {{ $product->category == 'Sports, courts, coatings' ? 'selected' : '' }}>Sports, courts, coatings</option>
-                                    <option value="Waterproofing solutions" {{ $product->category == 'Waterproofing solutions' ? 'selected' : '' }}>Waterproofing solutions</option>
-                                </flux:select>
-                                <flux:input name="sizes" value="{{ $product->sizes }}" label="Size" />
-                                <flux:input name="min_price" value="{{ $product->min_price }}" label="Min Price" type="number" step="0.01" />
-                                <flux:input name="max_price" value="{{ $product->max_price }}" label="Max Price" type="number" step="0.01" />
-                                <flux:textarea name="description" label="Description">{{ $product->description }}</flux:textarea>
-                                <div class="mt-4 flex justify-end">
-                                    <flux:button type="submit" variant="primary">Save Changes</flux:button>
-                                </div>
-                            </form>
-                        </div>
-                    </flux:modal>
-
-
-                    <!-- View product for table view-->
-                    <flux:modal name="view-product-{{ $product->id }}" class="w-full max-w-3xl h-[600px] overflow-y-auto">
-                        <div class="space-y-6 p-4 text-sm text-gray-700">
-                            <flux:heading size="2xl">{{ $product->productName }}</flux:heading>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Detailed product information.</p>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div><strong>Category:</strong> {{ $product->category }}</div>
-                                <div><strong>Size:</strong> {{ $product->sizes }}</div>
-                                <div><strong>Min Price:</strong> RM {{ number_format($product->min_price, 2) }}</div>
-                                <div><strong>Max Price:</strong> RM {{ number_format($product->max_price, 2) }}</div>
-                                <div class="md:col-span-2"><strong>Description:</strong> {{ $product->description }}</div>
-                            </div>
-                        </div>
-                    </flux:modal>
+                    </tr>  
                     @endforeach
                 </tbody>
             </table>
         </div>
+         <!-- Modals -->
+            @foreach ($products as $product)
+                @include('products.partials.edit-product', ['product' => $product])
+                @include('products.partials.view-product', ['product' => $product])
+            @endforeach
                 
        <!-- Grid View -->
 <div id="gridView" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-sm text-gray-700" style="display: none;">
@@ -222,13 +182,12 @@
     </div>
     @endforeach
 </div>
-
-
           <!-- Modals -->
             @foreach ($products as $product)
                 @include('products.partials.edit-modal', ['product' => $product])
                 @include('products.partials.view-modal', ['product' => $product])
             @endforeach
+
         <!-- Pagination -->
         <div class="mt-4">{{ $products->links() }}</div>
     </div>

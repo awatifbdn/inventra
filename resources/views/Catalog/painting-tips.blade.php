@@ -23,6 +23,17 @@
             </div>
 
             <div class="bg-white rounded-lg p-6 shadow">
+                <h3 class="text-xl font-semibold mb-2">🧽 Clean the Surface Thoroughly</h3>
+                <p class="text-sm text-gray-600 mb-3">A clean surface helps paint sticks better and last longer.</p>
+                <ul class="list-disc list-inside text-gray-700 text-sm">
+                    <li>Use mild soap or sugar soap to remove dirt and grease</li>
+                    <li>Rinse and let it dry fully before painting</li>
+                    <li>Scrape off old, flaking paint if needed</li>
+                    <li>Fix any mold or mildew before painting</li>
+                </ul>
+            </div>
+
+             <div class="bg-white rounded-lg p-6 shadow">
                 <h3 class="text-xl font-semibold mb-2">🎯 Choosing the Right Paint for Every Surface</h3>
                 <p class="text-sm text-gray-600 mb-3">Not all paints work on all surfaces. Learn how to choose between emulsion, gloss, enamel, and wood coatings.</p>
                 <ul class="list-disc list-inside text-gray-700 text-sm">
@@ -30,6 +41,38 @@
                     <li>Gloss for doors and trim</li>
                     <li>Wood coatings for furniture</li>
                     <li>Metal paints for grills and gates</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 shadow">
+                <h3 class="text-xl font-semibold mb-2">🧱 Pick the Right Tools</h3>
+                <p class="text-sm text-gray-600 mb-3">Not all brush are same, using the correct tools gives a smoother and faster finish.</p>
+                <ul class="list-disc list-inside text-gray-700 text-sm">
+                    <li>Use angled brushes for edged and trims</li>
+                    <li>Choose rollers with the right nap for your wall texture</li>
+                    <li>Pour paint into a tray for easier rolling</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 shadow">
+                <h3 class="text-xl font-semibold mb-2">🖌️ Use Simple Painting Techniques</h3>
+                <p class="text-sm text-gray-600 mb-3">Good techniques lead to clean, streak-free results.</p>
+                <ul class="list-disc list-inside text-gray-700 text-sm">
+                    <li>Paint in "W" or "M" motions to spread evenly</li>
+                    <li>Keep a wet edge to avoid lap marks</li>
+                    <li>Start from the top and work downward</li>
+                    <li>Avoid overloading your brush or roller</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 shadow">
+                <h3 class="text-xl font-semibold mb-2">🪟 Ensure Good Ventilation and Safety</h3>
+                <p class="text-sm text-gray-600 mb-3">Proper airflow and protection keep you safe during painting.</p>
+                <ul class="list-disc list-inside text-gray-700 text-sm">
+                    <li>Open windows and doors for fresh air</li>
+                    <li>Wear gloves or a mask, especially for oil-based paints</li>
+                    <li>Keep paint and tools away from children or pets</li>
+                    <li>Store paint in a cool, dry place after use</li>
                 </ul>
             </div>
         </section>
@@ -50,6 +93,22 @@
                     <iframe class="w-full h-full rounded-lg shadow"
                             src="https://www.youtube.com/embed/1eBDnXQYxZY"
                             title="Painting Tools Tips"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+                <div class="aspect-video">
+                    <iframe class="w-full h-full rounded-lg shadow"
+                            src="https://www.youtube.com/embed/snJ8kwcNTqE?si=Hxe93bu_YaSjipyb"
+                            title="How to paint use roller ?"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+                <div class="aspect-video">
+                    <iframe class="w-full h-full rounded-lg shadow"
+                            src="https://www.youtube.com/embed/6nAUtBdrnk0?si=JAmOB-hgfNVCWqd-"
+                            title="How to choose suitable paint for your wall ?"
                             frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen></iframe>

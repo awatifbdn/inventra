@@ -1,7 +1,8 @@
-@props(['product'])
+  @props(['product'])
 
-<flux:modal name="edit-modal-{{ $product->id }}" class="w-full max-w-5xl">
-   <div class="p-6 space-y-6">
+  <!-- Edit product for table view -->
+                    <flux:modal name="edit-product-{{ $product->id }}" class="rounded-2xl shadow-xl w-full max-w-5xl bg-white">
+                        <div class="p-6 space-y-6">
                              <h3 class="text-xl font-semibold text-gray-800 mb-0.5">Edit Product</h3>
                                <span class="text-sm text-gray-500">Update the product details below.</span>
 
@@ -34,4 +35,4 @@
                                 </div>
                             </form>
                         </div>
-</flux:modal>
+                    </flux:modal>

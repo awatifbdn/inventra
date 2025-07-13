@@ -11,6 +11,7 @@ use App\Mail\OrderReceiptCustomer;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
+
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -104,7 +105,7 @@ public function checkout(Request $request)
         return $item['litre']['price'] * ($item['quantity'] ?? 1);
     });
 
-    $orderId = '#FEORD' . now()->format('Ymd') . strtoupper(Str::random(3));
+    $orderId = 'FEORD' . now()->format('Ymd') . strtoupper(Str::random(3));
 
     $order = Order::create([
         'order_id'         => $orderId,
@@ -114,10 +115,10 @@ public function checkout(Request $request)
         'customer_address' => $data['address'],
         'items'            => $cartItems,
         'total_price'      => $totalPrice,
+        'status'           => 'new',
     ]);
 
-    Mail::to($data['email'])->send(new OrderReceiptCustomer($order));
-    Mail::to('admin@example.com')->send(new OrderPlaced($order));
+
 
     Session::forget('cart');
 

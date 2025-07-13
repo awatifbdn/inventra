@@ -1,179 +1,145 @@
-@php
-    $statusFilters = ['' => 'All', 'pending' => 'Pending', 'paid' => 'Paid', 'completed' => 'Completed'];
-    $statusClasses = [
-        'pending' => 'bg-yellow-100 text-yellow-800',
-        'paid' => 'bg-green-100 text-green-800',
-        'completed' => 'bg-blue-100 text-blue-800',
-    ];
-    $icons = [
-        'pending' => '⏳',
-        'paid' => '💰',
-        'completed' => '✅',
-    ];
-@endphp
-
 <x-layouts.app :title="__('Orders')">
-    <div class="p-6 space-y-6">
-<<<<<<< Updated upstream
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <h2 class="text-2xl font-bold text-zinc-800">📦 Orders Management</h2>
-            <div class="flex gap-2">
-                <a href="{{ route('admin.orders.export.csv') }}" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition">Export CSV</a>
-                <a href="{{ route('admin.orders.export.pdf') }}" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 transition">Export PDF</a>
-=======
-        <!-- Header with Date Filter and Search -->
-        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-            <div>
-                <h2 class="text-2xl font-bold text-zinc-800 dark:text-white">Orders</h2>
-                <p class="text-sm text-zinc-500 dark:text-zinc-400">Manage your latest customer orders</p>
->>>>>>> Stashed changes
-            </div>
-            <form method="GET" class="flex flex-wrap items-center gap-2">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search name/email"
-                    class="px-2 py-1 border rounded text-sm dark:bg-zinc-700 dark:border-zinc-600" />
-                <input type="date" name="from" value="{{ request('from') }}"
-                    class="px-2 py-1 border rounded text-sm dark:bg-zinc-700 dark:border-zinc-600" />
-                <span class="text-sm text-zinc-500 dark:text-zinc-400">to</span>
-                <input type="date" name="to" value="{{ request('to') }}"
-                    class="px-2 py-1 border rounded text-sm dark:bg-zinc-700 dark:border-zinc-600" />
-                <button type="submit"
-                    class="px-3 py-1.5 rounded text-sm bg-indigo-600 text-white hover:bg-indigo-700">Filter</button>
-            </form>
+    <!-- 📦 Summary Cards -->
+    @php
+        $summaryCards = [
+            ['title' => 'Total Orders', 'value' => $orders->total(), 'note' => 'Updated daily', 'color' => '#c6e6fc', 'textColor' => '#1d4ed8'],
+            ['title' => 'Paid Orders', 'value' => $orders->where('status', 'paid')->count(), 'note' => 'Up by 12%', 'color' => '#fff2cc', 'textColor' => '#16a34a'],
+            ['title' => 'Pending Orders', 'value' => $orders->where('status', 'pending')->count(), 'note' => 'Check pending payments', 'color' => '#fcd9be', 'textColor' => '#f59e0b'],
+            ['title' => 'Completed Orders', 'value' => $orders->where('status', 'completed')->count(), 'note' => 'All shipped', 'color' => '#d5fbd1', 'textColor' => '#0ea5e9'],
+        ];
+    @endphp
+
+    <div class="flex flex-col gap-6">
+        <!-- 📦 Summary Cards -->
+        <div class="flex flex-wrap gap-6 justify-center">
+            @foreach ($summaryCards as $card)
+                <div class="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-0.75rem)]">
+                    <div style="
+                        background: linear-gradient(180deg, #ffffff, {{ $card['color'] }});
+                        border-radius: 1rem;
+                        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+                        padding: 1.5rem;
+                        min-height: 150px;
+                        transition: transform 0.3s, box-shadow 0.3s;
+                    "
+                    onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.12)'"
+                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.08)'">
+                        <h2 class="text-lg font-semibold text-gray-700">{{ $card['title'] }}</h2>
+                        <p class="text-2xl font-bold mt-2" style="color: {{ $card['textColor'] }}">
+                            {{ number_format($card['value']) }}
+                        </p>
+                        <p class="text-sm mt-1 text-gray-500">{{ $card['note'] }}</p>
+                    </div>
+                </div>
+            @endforeach
         </div>
 
-<<<<<<< Updated upstream
-        <!-- Filter/Search Bar -->
-        <form method="GET" action="{{ route('admin.orders.index') }}" class="flex flex-wrap items-center gap-4">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search customer/email" class="px-3 py-2 border border-gray-300 rounded w-full sm:w-64 bg-white">
-            <select name="status" onchange="this.form.submit()" class="px-3 py-2 border border-gray-300 rounded bg-white">
-                <option value="">All Status</option>
-                <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
-                <option value="paid" {{ request('status') === 'paid' ? 'selected' : '' }}>Paid</option>
-                <option value="completed" {{ request('status') === 'completed' ? 'selected' : '' }}>Completed</option>
-            </select>
-            <button type="submit" class="px-4 py-2 bg-zinc-700 text-white rounded hover:bg-zinc-800">Search</button>
-        </form>
+       <!-- 🗂 Animated Underline Navigation Tabs -->
+        <div class="relative border-b border-gray-200 mt-8">
+            <nav id="tabsNav" class="flex space-x-6 overflow-x-auto no-scrollbar relative" aria-label="Tabs">
+                @php
+                    // Count of new orders for Inbox badge
+                    $newOrdersCount = \App\Models\Order::where('status', 'new')->count();
+                @endphp
 
-        <!-- Orders Table -->
-        <div class="overflow-x-auto rounded-xl shadow border border-zinc-200">
-            <table class="min-w-full text-sm text-left divide-y divide-gray-200">
-                <thead class="bg-zinc-100 text-zinc-700">
-                    <tr style="background-color: #e8e9e9;">
-=======
-        <!-- Summary Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <a href="{{ route('admin.orders.index', ['status' => '']) }}" class="block rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-4 hover:shadow transition">
-                <p class="text-sm text-zinc-500">Total Orders</p>
-                <h3 class="text-xl font-bold">{{ $orders->total() }}</h3>
-            </a>
-            <a href="{{ route('admin.orders.index', ['status' => 'paid']) }}" class="block rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-4 hover:shadow transition">
-                <p class="text-sm text-zinc-500">Paid Orders</p>
-                <h3 class="text-xl font-bold">{{ $orders->where('status', 'paid')->count() }}</h3>
-            </a>
-            <a href="{{ route('admin.orders.index', ['status' => 'completed']) }}" class="block rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-4 hover:shadow transition">
-                <p class="text-sm text-zinc-500">Completed</p>
-                <h3 class="text-xl font-bold">{{ $orders->where('status', 'completed')->count() }}</h3>
-            </a>
-            <a href="{{ route('admin.orders.index', ['status' => 'pending']) }}" class="block rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-4 hover:shadow transition">
-                <p class="text-sm text-zinc-500">Pending</p>
-                <h3 class="text-xl font-bold">{{ $orders->where('status', 'pending')->count() }}</h3>
-            </a>
+                @foreach ([
+                    'all' => 'All Orders',
+                    'inbox' => 'Inbox',
+                    'pending' => 'Pending',
+                    'paid' => 'Paid',
+                    'completed' => 'Completed'
+                ] as $key => $label)
+
+                    <button 
+                        onclick="switchTab('{{ $key }}', this)"
+                        id="tab-{{ $key }}"
+                        class="whitespace-nowrap py-3 px-4 text-sm font-medium focus:outline-none relative
+                            text-gray-500 hover:text-yellow-600 transition-colors duration-200 ease-in-out"
+                    >
+                        {{ $label }}
+
+                        @if ($key === 'inbox' && $newOrdersCount > 0)
+                            <span class="absolute -top-1 -right-2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
+                                {{ $newOrdersCount }}
+                            </span>
+                        @endif
+                    </button>
+
+                @endforeach
+
+                <!-- Animated Underline -->
+                <span id="activeTabIndicator" class="absolute bottom-0 h-0.5 bg-yellow-500 transition-all duration-300 ease-in-out rounded"></span>
+            </nav>
         </div>
 
-        <!-- Export Buttons -->
-        <div class="flex gap-2 pt-4">
-            <a href="{{ route('admin.orders.export.csv') }}" class="btn bg-white border border-zinc-300 hover:bg-zinc-100 text-sm">Export CSV</a>
-            <a href="{{ route('admin.orders.export.pdf') }}" class="btn bg-indigo-600 hover:bg-indigo-700 text-white text-sm">Export PDF</a>
-        </div>
 
-        <!-- Orders Table -->
-        <div class="overflow-x-auto rounded-xl shadow border border-zinc-200 dark:border-zinc-700">
-            <table class="min-w-full text-sm text-left divide-y divide-zinc-200 dark:divide-zinc-700">
-                <thead class="bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs uppercase">
-                    <tr>
->>>>>>> Stashed changes
-                        <th class="px-4 py-3">#</th>
-                        <th class="px-4 py-3">Order ID</th>
-                        <th class="px-4 py-3">Customer</th>
-                        <th class="px-4 py-3">Email</th>
-                        <th class="px-4 py-3">Phone</th>
-                        <th class="px-4 py-3">Items</th>
-                        <th class="px-4 py-3">Total</th>
-                        <th class="px-4 py-3">Date</th>
-                        <th class="px-4 py-3">Status</th>
-                        <th class="px-4 py-3 text-center">Actions</th>
-                    </tr>
-                </thead>
-<<<<<<< Updated upstream
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @forelse($orders as $index => $order)
-                        <tr>
-                            <td class="px-4 py-3 font-medium">{{ $orders->firstItem() + $index }}</td>
-                            <td class="px-4 py-3 font-medium">
-                                <a href="{{ route('admin.orders.show', $order->id) }}" class="text-blue-600 hover:underline">
-                                    {{ $order->order_id }}</a></td>
-=======
-                <tbody class="bg-white dark:bg-zinc-900 divide-y divide-zinc-200 dark:divide-zinc-700">
-                    @forelse($orders as $index => $order)
-                        <tr>
-                            <td class="px-4 py-3 font-medium text-zinc-700 dark:text-white">{{ $orders->firstItem() + $index }}</td>
->>>>>>> Stashed changes
-                            <td class="px-4 py-3">{{ $order->customer_name }}</td>
-                            <td class="px-4 py-3">{{ $order->customer_email }}</td>
-                            <td class="px-4 py-3">{{ $order->customer_phone ?? '-' }}</td>
-                            <td class="px-4 py-3 text-xs text-zinc-500">
-                                <ul class="space-y-1 list-disc pl-4">
-                                    @foreach ($order->items as $item)
-<<<<<<< Updated upstream
-                                        <li class="text-xs text-zinc-700">
-=======
-                                        <li>
->>>>>>> Stashed changes
-                                            {{ $item['product']['productName'] }} - {{ $item['color']['color_name'] }} ({{ $item['litre']['litre'] }}L) x{{ $item['quantity'] ?? 1 }}
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </td>
-                            <td class="px-4 py-3 font-semibold">RM{{ number_format($order->total_price, 2) }}</td>
-                            <td class="px-4 py-3">{{ $order->created_at->format('Y-m-d') }}</td>
-                            <td class="px-4 py-3">
-                                <form method="POST" action="{{ route('admin.orders.updateStatus', $order->id) }}">
-                                    @csrf
-                                    @method('PUT')
-<<<<<<< Updated upstream
-                                    <select name="status" onchange="this.form.submit()" class="rounded px-2 py-1 bg-white border border-gray-300 text-sm">
-                                        <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>🕓 Pending</option>
-=======
-                                    <select name="status" onchange="this.form.submit()"
-                                        class="px-2 py-1 border border-zinc-300 dark:border-zinc-600 rounded bg-white dark:bg-zinc-700 text-sm">
-                                        <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>⏳ Pending</option>
->>>>>>> Stashed changes
-                                        <option value="paid" {{ $order->status === 'paid' ? 'selected' : '' }}>💰 Paid</option>
-                                        <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>✅ Completed</option>
-                                    </select>
-                                </form>
-                            </td>
-                            <td class="px-4 py-3 text-center space-x-2">
-                                <a href="{{ route('admin.orders.show', $order->id) }}" class="text-indigo-600 hover:underline">View</a>
-                                <form method="POST" action="{{ route('admin.orders.destroy', $order->id) }}" class="inline-block" onsubmit="return confirm('Are you sure?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:underline">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="9" class="px-4 py-6 text-center text-zinc-500">No orders found.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
 
-        <!-- Pagination -->
-        <div class="pt-4">
-            {{ $orders->links() }}
+        <!-- 📋 Tab Content -->
+        <div id="ordersContent" class="overflow-x-auto rounded-lg shadow mt-4">
+            <div class="text-center py-6 text-gray-400">Loading...</div>
         </div>
     </div>
+
+    <!-- JS -->
+    <script>
+        let activeTab = 'all';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            switchTab('all'); // Load default tab
+        });
+
+        function switchTab(tab) {
+            activeTab = tab;
+
+            // Update tab styles
+            document.querySelectorAll('[id^="tab-"]').forEach(btn => {
+                btn.classList.remove('border-yellow-500', 'text-yellow-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+            const activeBtn = document.getElementById(`tab-${tab}`);
+            activeBtn.classList.add('border-yellow-500', 'text-yellow-600');
+
+            // Load content
+            loadTabContent(tab);
+        }
+
+
+
+        function switchTab(tab) {
+                activeTab = tab;
+
+                // Update tab styles
+                document.querySelectorAll('[id^="tab-"]').forEach(btn => {
+                    btn.classList.remove('border-yellow-500', 'text-yellow-600');
+                    btn.classList.add('text-gray-500');
+                });
+                document.getElementById(`tab-${tab}`).classList.add('border-yellow-500', 'text-yellow-600');
+
+                // Load content
+                loadTabContent(tab);
+            }
+
+            function loadTabContent(tab, params = '') {
+                const content = document.getElementById('ordersContent');
+                content.innerHTML = '<div class="text-center py-6 text-gray-400">Loading...</div>';
+
+                fetch(`/admin/orders/tab/${tab}${params}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        content.innerHTML = html;
+
+                        // Attach submit listener to this tab's search form
+                        const form = document.getElementById(`searchForm-${tab}`);
+                        if (form) {
+                            form.addEventListener('submit', function (e) {
+                                e.preventDefault();
+                                const formData = new FormData(form);
+                                const queryString = new URLSearchParams(formData).toString();
+                                loadTabContent(tab, `?${queryString}`);
+                            });
+                        }
+                    });
+            }
+
+    </script>
 </x-layouts.app>

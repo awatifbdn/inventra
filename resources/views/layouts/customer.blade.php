@@ -24,7 +24,6 @@
                 <a href="/" class="text-gray-600 hover:text-orange-500 font-medium">Home</a>
                 <a href="/catalog" class="text-gray-600 hover:text-orange-500 font-medium">Catalog</a>
                 <a href="/painting-tips" class="text-gray-600 hover:text-orange-500 font-medium">Tips</a>
-                <a href="" class="text-gray-600 hover:text-orange-500 font-medium">About</a>
             </nav>
 
             <!-- Cart Icon -->

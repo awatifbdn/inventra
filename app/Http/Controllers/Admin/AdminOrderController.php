@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Barryvdh\DomPDF\Facade\Pdf;
 
+
 class AdminOrderController extends Controller
 {
   public function index(Request $request)
@@ -45,7 +46,7 @@ class AdminOrderController extends Controller
 
     public function updateStatus(Request $request, Order $order)
     {
-        $request->validate(['status' => 'required|in:pending,paid,completed']);
+        $request->validate(['status' => 'required|in:new,pending,paid,completed']);
         $order->update(['status' => $request->status]);
         return redirect()->back()->with('success', 'Order status updated.');
     }
@@ -86,7 +87,45 @@ class AdminOrderController extends Controller
         return response()->stream($callback, 200, $headers);
     }
 
-    public function exportPdf()
+       public function tab($tab, Request $request)
+{
+    $query = Order::query();
+
+    // 📥 Inbox tab: show only "new" orders
+    if ($tab === 'inbox') {
+        $query->where('status', 'new');
+    } elseif (in_array($tab, ['pending', 'paid', 'completed'])) {
+        $query->where('status', $tab);
+    }
+
+    // Apply search filter
+    if ($request->filled('search')) {
+        $query->where(function ($q) use ($request) {
+            $q->where('customer_name', 'like', '%' . $request->search . '%')
+              ->orWhere('customer_email', 'like', '%' . $request->search . '%');
+        });
+    }
+
+    $orders = $query->latest()->paginate(10)->withQueryString();
+
+    if ($request->ajax()) {
+        $html = view('admin.orders.partials.tab_table', [
+            'orders' => $orders,
+            'tab' => $tab,
+        ])->render();
+
+        return response()->json(['html' => $html]);
+    }
+
+    return view('admin.orders.partials.tab_table', [
+        'orders' => $orders,
+        'tab' => $tab,
+    ])->render();
+}
+
+
+
+   /* public function exportPdf()
     {
         $orders = Order::all();
         $pdf = Pdf::loadView('admin.orders.export_pdf', compact('orders'));
@@ -100,6 +139,6 @@ class AdminOrderController extends Controller
         $pdf = Pdf::loadView('admin.orders.receipt', compact('order'));
         return $pdf->download('Receipt_' . $order->order_id . '.pdf');
     }
-
+*/
 }
 

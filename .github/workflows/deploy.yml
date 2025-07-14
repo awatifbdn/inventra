@@ -1,0 +1,44 @@
+name: Deploy Laravel App
+
+on:
+  push:
+    branches:
+      - main  # Only deploy when pushing to main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, bcmath, xml, curl, gd, zip
+          tools: composer
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Add Flux Credentials
+        run: composer config http-basic.composer.fluxui.dev wtifbdn01@gmail.com fda6d960-96ce-40f8-b0dc-63148f841e73
+
+
+      - name: Install PHP Dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Install Node Dependencies
+        run: npm ci
+
+      - name: Build Assets
+        run: npm run build
+
+      # Optional: Deploy step (add your deployment command here)
+      - name: Deploy to Server
+        run: echo "Add deployment script here (Forge, Vapor, SSH, etc.)"

@@ -73,6 +73,102 @@
                         Update Stock
                     </flux:button>
                 </flux:modal.trigger>
+
+                <!-- Update Stock Modal -->
+              <flux:modal name="update-stock">
+                    <form action="{{ route('inventory.updateStock') }}" method="POST" x-data="productSearch()">
+                        @csrf
+                        <div class="space-y-4 p-4">
+                            <h3 class="text-lg font-semibold text-gray-700 dark:text-white">Update Stock</h3><br>
+
+                            <!-- Live Search -->
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Search Product</label>
+                                <input 
+                                    type="text" 
+                                    class="w-full p-2 rounded-md border border-gray-300"
+                                    placeholder="Type product name or code..."
+                                    x-model="query"
+                                    @click.away="filtered = []"
+                                    @input="filterStocks"
+                                   
+                                />
+                               <ul class="mt-2 text-sm rounded-md border-gray-500 shadow-md max-h-48 overflow-y-auto" role="listbox">
+                                <template x-for="stock in filtered" :key="stock.id">
+                                    <li 
+                                    class="p-2 hover:text-green-800 cursor-pointer text-gray-900 dark:text-white" role="option"
+                                    @click="selectStocks(stock)"
+                                    x-text="stock.productName + ' (' + stock.productCode + ')'">
+                                    </li>
+                                </template>
+                                </ul>
+
+                                <input type="hidden" name="stock_id" :value="selected?.id">
+                                <div class="text-xs text-gray-900 dark:text-white mt-1" x-show="selected">Selected: <span x-text="selected.productName"></span></div>
+                            </div>
+
+                            <!-- Entry Type -->
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Entry Type</label>
+                                <select name="entry_type" class="w-full p-2 rounded-md border border-gray-300">
+                                    <option value="in">Stock In</option>
+                                    <option value="out">Stock Out</option>
+                                </select>
+                            </div>
+
+                            <!-- Quantity -->
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium  text-gray-700 dark:text-white mb-1">Quantity Received</label>
+                                <flux:input type="number" min="1" name="quantity" placeholder="e.g., 10" />
+                            </div>
+
+                            <!-- Date -->
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium  text-gray-700 dark:text-white mb-1">Date Received</label>
+                                <flux:input type="datetime-local" name="entry_date" />
+                            </div>
+
+                            <!-- Optional Note -->
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-white mb-1">Note (Optional)</label>
+                                <flux:input type="text" name="note" placeholder="e.g., Shipment received from supplier" />
+                            </div>
+
+
+                            <!-- Submit -->
+                            <div class="text-right pt-2 mb-4">
+                                <flux:button type="submit" variant="primary">Submit Update</flux:button>
+                            </div>
+                        </div>
+                    </form>
+                </flux:modal>
+
+               <script>
+                function productSearch() {
+                    return {
+                        query: '',
+                        selected: null,
+                        products: @json($inventory ?? []),
+                        filtered: [],
+                        filterStocks() {
+                            const q = this.query.toLowerCase();
+                            this.filtered = this.products.filter(p =>
+                                p.productName.toLowerCase().includes(q) ||
+                                p.productCode.toLowerCase().includes(q)
+                            );
+                        },
+                        selectStocks(stock) {
+                            this.selected = stock;
+                            this.query = stock.productName + ' (' + stock.productCode + ')';
+                            this.filtered = [];
+                        }
+                    }
+                }
+            </script>
+
+
+
+  
             </div>
 
             <!-- Search & Filter Form -->

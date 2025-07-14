@@ -121,7 +121,6 @@ class ColorController extends Controller
             $color->litres()->delete();
             $color->delete();
         }
-
         return back()->with('success', 'Selected colors deleted.');
     }
 

@@ -3,10 +3,7 @@
     "name": "laravel/livewire-starter-kit",
     "type": "project",
     "description": "The official Laravel starter kit for Livewire.",
-    "keywords": [
-        "laravel",
-        "framework"
-    ],
+    "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
@@ -16,8 +13,7 @@
         "livewire/flux": "^2.1.1",
         "livewire/flux-pro": "^2.1",
         "livewire/volt": "^1.7.0",
-        "league/commonmark": "^2.7",
-        "fluxui/pro": "^2.1.5"
+        "league/commonmark": "^2.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -57,10 +53,6 @@
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
-        ],
-        "dev": [
-            "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"npm run dev\" --names='server,queue,vite'"
         ]
     },
     "extra": {
@@ -75,12 +67,6 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
-        },
-        "http-basic": {
-            "composer.fluxui.dev": {
-                "username": "wtifbdn01@gmail.com",
-                "password": "fda6d960-96ce-40f8-b0dc-63148f841e73"
-            }
         }
     },
     "minimum-stability": "stable",

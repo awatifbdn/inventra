@@ -16,7 +16,8 @@
         "livewire/flux": "^2.1.1",
         "livewire/flux-pro": "^2.1",
         "livewire/volt": "^1.7.0",
-        "league/commonmark": "^2.7"  
+        "league/commonmark": "^2.7",
+        "fluxui/pro": "^2.1.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -74,6 +75,12 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
+        },
+        "http-basic": {
+            "composer.fluxui.dev": {
+                "username": "wtifbdn01@gmail.com",
+                "password": "fda6d960-96ce-40f8-b0dc-63148f841e73"
+            }
         }
     },
     "minimum-stability": "stable",

@@ -20,14 +20,8 @@ WORKDIR /var/www
 
 COPY . .
 
-ENV COMPOSER_AUTH='{
-    "http-basic": {
-        "composer.fluxui.dev": {
-            "username": "wtifbdn01@gmail.com",
-            "password": "fda6d960-96ce-40f8-b0dc-63148f841e73"
-        }
-    }
-}'
+# ✅ Set Composer Auth environment variable (escaped JSON)
+ENV COMPOSER_AUTH="{\"http-basic\": {\"composer.fluxui.dev\": {\"username\": \"wtifbdn01@gmail.com\", \"password\": \"fda6d960-96ce-40f8-b0dc-63148f841e73\"}}}"
 
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 

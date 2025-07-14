@@ -1,5 +1,7 @@
 @import 'tailwindcss';
-@import '../../vendor/livewire/flux-pro/dist/flux-pro.css';
+@layer components {
+  @import '../../vendor/livewire/flux-pro/dist/flux-pro.css';
+}
 @import '../../vendor/livewire/flux/dist/flux.css';
 
 @source '../views';

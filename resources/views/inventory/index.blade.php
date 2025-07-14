@@ -141,7 +141,7 @@
                                 </template>
                                 </ul>
 
-                                <input type="hidden" name="stock_id" :value="selected?.id">
+                                <input type="hidden" name="stock_id" :value="selected?id">
                                 <div class="text-xs text-gray-900 dark:text-white mt-1" x-show="selected">Selected: <span x-text="selected.productName"></span></div>
                             </div>
 

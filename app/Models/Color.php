@@ -18,7 +18,6 @@ class Color extends Model
     "product_id" // Foreign Key to products table
     ];
 
-
     public function product()
         {
             return $this->belongsTo(Product::class);

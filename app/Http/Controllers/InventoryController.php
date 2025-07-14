@@ -130,7 +130,6 @@ class InventoryController extends Controller
     public function liveSearch(Request $request)
     {
         $query = $this->buildSearchQuery($request->input('q'));
-
         $results = $query->limit(10)->get(['id', 'productName', 'productCode']);
 
         return response()->json($results);

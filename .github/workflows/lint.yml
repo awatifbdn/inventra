@@ -16,23 +16,19 @@ permissions:
 jobs:
   quality:
     runs-on: ubuntu-latest
-    environment: Testing
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2' # Fixed to a stable PHP version
+          php-version: '8.2'
 
       - name: Add Flux Credentials
-        run: composer config http-basic.composer.fluxui.dev wtifbdn01@gmail.com fda6d960-96ce-40f8-b0dc-63148f841e73
+        run: composer config http-basic.composer.fluxui.dev "${{ secrets.FLUX_USERNAME }}" "${{ secrets.FLUX_LICENSE_KEY }}"
 
       - name: Install PHP Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
-
-      - name: Install Node Dependencies
-        run: npm ci
 
       - name: Run Pint
         run: vendor/bin/pint

@@ -1,7 +1,5 @@
 @import 'tailwindcss';
-@layer components {
-  @import '../../vendor/livewire/flux-pro/dist/flux-pro.css';
-}
+@import '../../vendor/livewire/flux-pro/dist/flux-pro.css';
 @import '../../vendor/livewire/flux/dist/flux.css';
 
 @source '../views';
@@ -9,7 +7,7 @@
 @source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
 @source '../../vendor/livewire/flux/stubs/**/*.blade.php';
 
-
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -31,7 +29,13 @@
     --color-accent-foreground: var(--color-white);
 }
 
-
+@layer theme {
+    .dark {
+        --color-accent: var(--color-white);
+        --color-accent-content: var(--color-white);
+        --color-accent-foreground: var(--color-neutral-800);
+    }
+}
 
 @layer base {
 

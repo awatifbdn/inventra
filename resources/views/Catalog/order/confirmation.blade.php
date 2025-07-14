@@ -72,7 +72,6 @@
                 <p><strong>🏠 Address:</strong> {{ $customer['address'] }}</p>
             </div>
         </div>
-
         <!-- Payment Notice -->
         <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg text-sm text-gray-700">
             <p><strong>📌 Payment Instructions:</strong></p>
